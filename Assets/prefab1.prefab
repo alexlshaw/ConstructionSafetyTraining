@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 40069611801287186}
   - component: {fileID: 7910849545457263738}
   - component: {fileID: 3355250751679377624}
+  - component: {fileID: -7288308421834898805}
   m_Layer: 0
-  m_Name: RedCube
+  m_Name: prefab1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e2450107150ca6142a9ba193318763d1, type: 2}
+  - {fileID: 2100000, guid: e1517205327b18940b3289d6e0dadc02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,3 +97,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7288308421834898805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702887451493226897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cf8dff1eb95714fa773feb21503baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 3
+  ySize: 3
+  generateBorder: 1
+  material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
