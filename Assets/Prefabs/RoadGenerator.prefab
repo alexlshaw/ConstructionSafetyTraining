@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2342352658620317559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2342352658620317554}
+  - component: {fileID: 2342352658620317553}
+  m_Layer: 0
+  m_Name: RoadGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2342352658620317554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342352658620317559}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2342352658620317553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342352658620317559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da52573dc793f540831de6f3ce59323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seed: 13
+  listGen:
+  - xMinMax: {x: 20, y: 40}
+    yMinMax: {x: 20, y: 40}
+    targetItems: 5
+    prefabsToSpawn:
+    - item: {fileID: 3149822276480696041, guid: 36226cc07c6f46a40a52abe7bc36987f, type: 3}
+      chance: 0.05
+    - item: {fileID: 1702887451493226897, guid: 4de5655aa0178564cade6bcb90a605f9, type: 3}
+      chance: 1
+  - xMinMax: {x: 40, y: 60}
+    yMinMax: {x: 40, y: 60}
+    targetItems: 5
+    prefabsToSpawn:
+    - item: {fileID: 1702887451493226897, guid: 4de5655aa0178564cade6bcb90a605f9, type: 3}
+      chance: 1
+    - item: {fileID: 95237971716740390, guid: a7f5d560ecf06994db806b6c522ef406, type: 3}
+      chance: 1
+  - xMinMax: {x: 20, y: 20}
+    yMinMax: {x: 20, y: 20}
+    targetItems: 5
+    prefabsToSpawn:
+    - item: {fileID: 3149822276480696041, guid: 36226cc07c6f46a40a52abe7bc36987f, type: 3}
+      chance: 0.02
+    - item: {fileID: 426326690123383877, guid: 4e7943bd3778c3f4290509b073a68672, type: 3}
+      chance: 1
+  - xMinMax: {x: 20, y: 40}
+    yMinMax: {x: 20, y: 40}
+    targetItems: 5
+    prefabsToSpawn:
+    - item: {fileID: 3149822276480696041, guid: 36226cc07c6f46a40a52abe7bc36987f, type: 3}
+      chance: 0.02
+    - item: {fileID: 1702887451493226897, guid: 4de5655aa0178564cade6bcb90a605f9, type: 3}
+      chance: 1
+  - xMinMax: {x: 20, y: 40}
+    yMinMax: {x: 20, y: 40}
+    targetItems: 5
+    prefabsToSpawn:
+    - item: {fileID: 3149822276480696041, guid: 36226cc07c6f46a40a52abe7bc36987f, type: 3}
+      chance: 0.02
+    - item: {fileID: 1702887451493226897, guid: 4de5655aa0178564cade6bcb90a605f9, type: 3}
+      chance: 1
+  genPrefab: {fileID: 434322766853583153, guid: 48b3ea04ab942b2489275b612f945133, type: 3}
+  groundMaterial: {fileID: 2100000, guid: eb0f2e5de28431443a931a6e5a8f5767, type: 2}
+  generatorBorder: 15
+  maxXSites: 2
+  maxYSites: 1
+  numBordersRemoved: 2
+  wholeSiteBorder: {fileID: 7857798852117718030, guid: 8775bf49898ed454a8f6cd0a40f56cc1, type: 3}
