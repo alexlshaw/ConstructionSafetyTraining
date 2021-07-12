@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2612740432344095249}
   m_Layer: 0
   m_Name: Crane
-  m_TagString: Untagged
+  m_TagString: Crane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,9 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cf8dff1eb95714fa773feb21503baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 5
-  ySize: 5
-  generateBorder: 1
+  xSize: 6
+  ySize: 6
+  generateBorder: 0
+  randomlyRotate: 0
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
 --- !u!65 &2612740432344095249
 BoxCollider:

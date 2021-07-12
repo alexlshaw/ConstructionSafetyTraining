@@ -45,6 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - FadeEdges: 0
     - Tiling: 0.25
     m_Colors: []
   m_BuildTextureStacks: []

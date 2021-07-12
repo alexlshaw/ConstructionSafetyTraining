@@ -144,6 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 1
   ySize: 1
-  generateBorder: 1
+  generateBorder: 0
   randomlyRotate: 1
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}

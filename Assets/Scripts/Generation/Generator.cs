@@ -52,43 +52,57 @@ public class Generator : MonoBehaviour
     }
     void generatePrefabs()
     {
+        GameObject craneSearch = GameObject.FindGameObjectWithTag("Crane");
+        bool noCrane = !craneSearch;
         for (int i = 0; i < targetItems; i++){
             foreach (dict input_item in prefabsToSpawn){
-                float val = UnityEngine.Random.value;
-                if (val < input_item.chance){
-                    GameObject item = input_item.item;
-                    int h = UnityEngine.Random.Range(0, ySize - 1);
-                    int w = UnityEngine.Random.Range(0, xSize - 1);
-                    currentPrefab = item;
-                    int prefabX = currentPrefab.GetComponent<GeneratedItem>().xSize + 1;
-                    int prefabY = currentPrefab.GetComponent<GeneratedItem>().ySize + 1;
-                    bool areaIsInUse = false;
-                    for (int y = -prefabY; y < prefabY; y++){
-                        for (int x = -prefabX; x < prefabX; x++){
-                            if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize){
-                                if (bool_array[h + y][w + x] == true){
-                                    areaIsInUse = true;
+                if (noCrane || input_item.item.tag != "Crane"){
+                    if (input_item.item.tag == "Crane") { noCrane = false; }
+                    float val = UnityEngine.Random.value;
+                    if (val < input_item.chance)
+                    {
+                        GameObject item = input_item.item;
+                        int h = UnityEngine.Random.Range(0, ySize - 1);
+                        int w = UnityEngine.Random.Range(0, xSize - 1);
+                        currentPrefab = item;
+                        int prefabX = currentPrefab.GetComponent<GeneratedItem>().xSize + 1;
+                        int prefabY = currentPrefab.GetComponent<GeneratedItem>().ySize + 1;
+                        bool areaIsInUse = false;
+                        for (int y = -prefabY; y < prefabY; y++)
+                        {
+                            for (int x = -prefabX; x < prefabX; x++)
+                            {
+                                if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize)
+                                {
+                                    if (bool_array[h + y][w + x] == true)
+                                    {
+                                        areaIsInUse = true;
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (areaIsInUse == false){
-                        for (int y = -prefabY; y < prefabY; y++){
-                            for (int x = -prefabX; x < prefabX; x++){
-                                if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize){
-                                    bool_array[h + y][w + x] = true;
+                        if (areaIsInUse == false)
+                        {
+                            for (int y = -prefabY; y < prefabY; y++)
+                            {
+                                for (int x = -prefabX; x < prefabX; x++)
+                                {
+                                    if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize)
+                                    {
+                                        bool_array[h + y][w + x] = true;
+                                    }
                                 }
                             }
+                            Quaternion rotation = (currentPrefab.GetComponent<GeneratedItem>().randomlyRotate) ? Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360 - 1), 0f) : Quaternion.identity;
+                            float new_w = w + gameObject.transform.position.x;
+                            float new_h = h + gameObject.transform.position.z;
+                            GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
+                            prefab.transform.parent = gameObject.transform;
+                            prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
+                            prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
+                            prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
+                            prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
                         }
-                        Quaternion rotation = (currentPrefab.GetComponent<GeneratedItem>().randomlyRotate) ? Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360 - 1), 0f) : Quaternion.identity;
-                        float new_w = w + gameObject.transform.position.x;
-                        float new_h = h + gameObject.transform.position.z;
-                        GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
-                        prefab.transform.parent = gameObject.transform;
-                        prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
-                        prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
-                        prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
-                        prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
                     }
                 }
             }

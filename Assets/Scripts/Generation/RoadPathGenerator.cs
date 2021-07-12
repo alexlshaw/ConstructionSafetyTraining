@@ -3,41 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using SharpConfig;
+using System.IO;
 
-[Serializable]
-public class newGenTemplate
-{
-    public Vector2Int xMinMax;
-    public Vector2Int yMinMax;
-    public int targetItems;
-    public List<dict> prefabsToSpawn = new List<dict>();
-}
 public class RoadPathGenerator : MonoBehaviour
 {
     private List<Generator> generators = new List<Generator>();
     private List<GameObject> areas = new List<GameObject>();
     private List<GameObject> allBorders = new List<GameObject>();
+    private List<dict> prefabsToSpawn = new List<dict>();           //cfg
     private List<Vector3> vertices;
     private GameObject spawned = null;
+    private MeshFilter mf;
     
     [Header("Generation Seed Value")]
-    public int seed;
+    public int seed;                    //cfg
     [Header("Individual Sections")]
-    public List<newGenTemplate> listGen = new List<newGenTemplate>();
+    public Vector2Int xMinMax;          //cfg
+    public Vector2Int yMinMax;          //cfg
+    public int targetAmount;            //cfg
     public GameObject genPrefab;
+    public int sectionAmount;           //cfg
     
     [Header("Overall Site")]
     public Material groundMaterial;
-    public int generatorBorder = 5;
-    public int maxXSites;
-    public int maxYSites;
-    public int numBordersRemoved;
+    public int generatorBorder;         //cfg
+    public int maxXSites;               //cfg
+    public int maxYSites;               //cfg
+    public int numBordersRemoved;       //cfg
     public GameObject wholeSiteBorder;
-    private bool val;
-    
+    public GameObject trainTracks;
+
+    private Configuration cfg;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!File.Exists("config.cfg")){
+            Debug.Log("Config not found! Making new config...");
+            makeConfig();
+            saveConfig();
+        }
+        loadConfig();
+
         spawned = new GameObject("groundParent");
         UnityEngine.Random.InitState(seed);
         addAreas();
@@ -47,12 +55,62 @@ public class RoadPathGenerator : MonoBehaviour
         generateGroundPolygon();
         removeClosestBorder();
         generateBorderPrefabs();
-        spawned.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+        spawned.transform.localScale *= 1.25f;
+        generateTrainTracks();
+        addPlayer();
     }
+    void makeConfig()
+    {
+        cfg = new Configuration();
+        cfg["Generator"]["seed"].IntValue = 0;
+        cfg["Generator"]["generatorBorder"].IntValue = 10;
+        cfg["Generator"]["maxXSites"].IntValue = 3;
+        cfg["Generator"]["NumBordersRemoved"].IntValue = 2;
+        cfg["Sections"]["sectionAmount"].IntValue = 3;
+        cfg["Sections"]["sectionXSizeMinMax"].IntValueArray = new int[] { 30, 40 };
+        cfg["Sections"]["sectionYSizeMinMax"].IntValueArray = new int[] { 30, 40 };
+        cfg["Sections"]["targetItemAmount"].IntValue = 5;
+        cfg["Prefabs"]["prefab1"].StringValue = "Crane";
+        cfg["PrefabsChance"]["prefab1Chance"].FloatValue = 0.05f;
+    }
+    void saveConfig()
+    {
+        cfg.SaveToFile("config.cfg");
+    }
+    void loadConfig()
+    {
+        Debug.Log("Loaded config!");
+        cfg = Configuration.LoadFromFile("config.cfg");
 
+        var section = cfg["Generator"];
+        seed = section["seed"].IntValue;
+        generatorBorder = section["generatorBorder"].IntValue;
+        maxXSites = section["maxXSites"].IntValue;
+        numBordersRemoved = section["numBordersRemoved"].IntValue;
+
+        section = cfg["Sections"];
+        sectionAmount = section["sectionAmount"].IntValue;
+        int[] x = section["sectionXSizeMinMax"].IntValueArray;
+        int[] y = section["sectionYSizeMinMax"].IntValueArray;
+        xMinMax = new Vector2Int(x[0],x[1]);
+        yMinMax = new Vector2Int(y[0],y[1]);
+        targetAmount = section["targetItemAmount"].IntValue;
+        List<string> list1 = new List<string>();
+        List<float> list2 = new List<float>();
+        foreach (var setting in cfg["Prefabs"]){ list1.Add(setting.StringValue); }
+        foreach (var setting in cfg["PrefabsChance"]){ list2.Add(setting.FloatValue); }
+        for (int i = 0; i < list1.Count; i++)
+        {
+            dict tempVal = new dict();
+            tempVal.item = Resources.Load<GameObject>("Prefabs/"+list1[i]);
+            tempVal.chance = list2[i];
+            prefabsToSpawn.Add(tempVal);
+        }
+
+    }
     void addAreas()
     {
-        for (int i = 0; i < listGen.Count; i++){
+        for (int i = 0; i < sectionAmount; i++){
             GameObject area = Instantiate(genPrefab);
             areas.Add(area);
             generators.Add(area.GetComponent<Generator>());
@@ -60,11 +118,11 @@ public class RoadPathGenerator : MonoBehaviour
     }
     void startGeneration()
     {
-        for (int i = 0; i < listGen.Count; i++){
-            generators[i].xSize = UnityEngine.Random.Range(listGen[i].xMinMax.x, listGen[i].xMinMax.y);
-            generators[i].ySize = UnityEngine.Random.Range(listGen[i].yMinMax.x, listGen[i].yMinMax.y);
-            generators[i].targetItems = listGen[i].targetItems;
-            generators[i].prefabsToSpawn = listGen[i].prefabsToSpawn;
+        for (int i = 0; i < sectionAmount; i++){
+            generators[i].xSize = UnityEngine.Random.Range(xMinMax.x, xMinMax.y);
+            generators[i].ySize = UnityEngine.Random.Range(yMinMax.x, yMinMax.y);
+            generators[i].targetItems = targetAmount;
+            generators[i].prefabsToSpawn = prefabsToSpawn;
             generators[i].startGeneration(seed + i);
             foreach (GameObject border in generators[i].borderInstances) { allBorders.Add(border); }
         }
@@ -74,30 +132,20 @@ public class RoadPathGenerator : MonoBehaviour
         float locationX = 0;
         float locationY = 0;
         int xinc = 0;
-        int yinc = 0;
-        for (int i = 0; i < areas.Count; i++)
+        for (int i = 0; i < sectionAmount; i++)
         {
             areas[i].transform.position = new Vector3(locationX, 0, locationY);
-            val = (UnityEngine.Random.value < 0.5);
             int x = generators[i].xSize;
             int y = generators[i].ySize;
-            if (val && xinc < maxXSites) { 
-                locationX += x + generatorBorder; 
-                xinc += 1; 
+            if (xinc < maxXSites - 1) { 
+                locationX += (x + generatorBorder); 
+                xinc += 1;
+                
             }
-            if (!val && yinc < maxYSites) { 
-                locationY += y + generatorBorder; 
-                yinc += 1; 
-            }
-            else if (xinc == maxXSites) { 
-                locationY += (y/2) + generatorBorder;
-                locationX -= x + generatorBorder; 
-                xinc = 0; 
-            }
-            else if (yinc == maxYSites) { 
-                locationX += (x/2) + generatorBorder; 
-                locationY -= y + generatorBorder; 
-                yinc = 0; 
+            else {
+                locationX = 0;
+                locationY += (y + generatorBorder); 
+                xinc = 0;
             }
         }
     }
@@ -109,7 +157,8 @@ public class RoadPathGenerator : MonoBehaviour
     void generateGroundPolygon()
     {
         GameObject ground = new GameObject("groundMesh");
-        Mesh msh = ground.AddComponent<MeshFilter>().mesh;
+        mf = ground.AddComponent<MeshFilter>();
+        Mesh msh = mf.mesh;
         List<Vector2> vertices2d = new List<Vector2>();
         foreach (Vector3 item in vertices) { vertices2d.Add(new Vector2(item.x, item.z)); }
         TriangleScript tr = new TriangleScript(vertices2d.ToArray());
@@ -157,15 +206,21 @@ public class RoadPathGenerator : MonoBehaviour
                     }
                 }
             }
-            Destroy(border1);
-            Destroy(border2);
+            if (border1) { Destroy(border1); }
+            if (border2) { Destroy(border2); }
             for (int x = 0; x < numBordersRemoved; x++)
             {
-                GameObject starget = start.borderInstances[sindex - x];
-                if (!addedBox) { addedBox = true; Instantiate(start.box, starget.transform.position, starget.transform.rotation); }
-                if (starget) { Destroy(starget); }
-                GameObject etarget = end.borderInstances[eindex - x];
-                if (etarget) { Destroy(etarget); }
+                if (sindex - x >= 0)
+                {
+                    GameObject starget = start.borderInstances[sindex - x];
+                    if (!addedBox) { addedBox = true; Instantiate(start.box, starget.transform.position, starget.transform.rotation * Quaternion.Euler(0f, -90f, 0f)); }
+                    if (starget) { Destroy(starget); }
+                }
+                if (eindex - x >= 0)
+                {
+                    GameObject etarget = end.borderInstances[eindex - x];
+                    if (etarget) { Destroy(etarget); }
+                }
             }
         }
     }
@@ -201,5 +256,25 @@ public class RoadPathGenerator : MonoBehaviour
                 }
             }
         }
+    }
+    void generateTrainTracks()
+    {
+        Mesh meshTemp = mf.mesh;
+        int index = UnityEngine.Random.Range(0, meshTemp.vertices.Length);
+        Vector3 p1 = meshTemp.vertices[index];
+        p1 = mf.transform.TransformPoint(p1);
+        Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
+        p2 = mf.transform.TransformPoint(p2);
+        //Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f);
+        Vector3 pc = (p1 + p2) / 2;
+        float rotation = Vector2.Angle(p1, p2);
+        Vector3 dir = (pc - meshTemp.bounds.center).normalized;
+        GameObject item = Instantiate(trainTracks, (pc + dir * 21f) - Vector3.up * 2.5f, Quaternion.Euler(0f, rotation + 90, 0f));
+        item.transform.localScale *= 5f;
+        item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
+    }
+    void addPlayer()
+    {
+        Instantiate(Resources.Load("Prefabs/PlayerNonVR"), mf.mesh.bounds.center, Quaternion.identity);
     }
 }

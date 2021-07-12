@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cf8dff1eb95714fa773feb21503baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 8
-  ySize: 8
+  xSize: 9
+  ySize: 9
   generateBorder: 0
   randomlyRotate: 1
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
