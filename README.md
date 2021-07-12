@@ -8,7 +8,7 @@ This is a construction training tool developed to educate construction workers w
 This tool focuses on situational awareness around vehicles as well as safely and correctly navigating contruction sites. 
 
 
-##Usage
+###Usage
 
 The construction sites in this application are procedural and can be controlled by editing the file "config.cfg". Multiple variables are available to change. This includes the seed value that affects the consistency of site generation, the total number of sections within the site, their size and the target number of items to spawn within said site - this number is not the number of prefabs guarenteed to spawn as the sites are procedurally generated and will not spawn an item if a previously spawned item overlaps.
 
