@@ -18,6 +18,6 @@ The currently available items available to spawn are the following:
 * CraneVehicle
 * Excavator
 
-and can be added or removed by editing the "Prefabs" section of the config file. The chance of each item spawning is available in the "PrefabsChance" section and correspond to the same *ordered* prefab item - sequenced numbers are in place for seperation and have no effect on the corresponding prefab's sequenced number.
+These can be added or removed by editing the "Prefabs" section of the config file. The chance of each item spawning is available in the "PrefabsChance" section and correspond to the same *ordered* prefab item - sequenced numbers are in place for seperation and have no effect on the corresponding prefab's sequenced number.
 
 More documentation is available in the config file itself, though it's fairly self-explanatory.
