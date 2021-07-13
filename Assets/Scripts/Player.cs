@@ -18,6 +18,8 @@ public class Player : Character
     private int currentZone;
     private int multiplier = 1;
     private float bobOffset = 0;
+    private Vector2 inputVecCam;
+    private Vector2 inputVecMove;
 
     protected override void Start()
     {
@@ -28,6 +30,8 @@ public class Player : Character
     protected override void Update()
     {
         zoneTrace();
+        camFunc();
+        moveFunc();
         base.Update();
     }
     public void OnJump()
@@ -38,16 +42,19 @@ public class Player : Character
         }
     }
     public void OnMove(InputValue input)
-    {
-        Vector2 inputVec = input.Get<Vector2>();
-        moveDirection = Camera.main.transform.TransformDirection(new Vector3(inputVec.x, 0f, inputVec.y));
+{
+        inputVecMove = input.Get<Vector2>();
+    }
+    void moveFunc(){
+        moveDirection = Camera.main.transform.TransformDirection(new Vector3(inputVecMove.x, 0f, inputVecMove.y));
         moveDirection.y = 0f;
         moveDirection.Normalize();
     }
 
-    public void OnLook(InputValue input)
-    {
-        Vector2 inputVec = input.Get<Vector2>();
+    public void OnLook(InputValue input){
+        inputVecCam = input.Get<Vector2>();
+    }
+    void camFunc(){
         if (moveDirection.magnitude != 0)
         {
             bobOffset += 0.0025f * multiplier;
@@ -57,13 +64,12 @@ public class Player : Character
         {
             bobOffset = 0;
         }
-        camX += (inputVec.x * turnXSpeed);
-        camY += (-inputVec.y * turnYSpeed);
+        camX += (inputVecCam.x * turnXSpeed);
+        camY += (-inputVecCam.y * turnYSpeed);
         camY = Mathf.Clamp(camY, -90f, 90f);
         Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, Quaternion.Euler(camY, camX, 0f), Time.deltaTime * interpSpeed);
         Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, new Vector3(0, 1 + bobOffset, 0), Time.deltaTime * interpSpeed);
     }
-
     void zoneTrace()
     {
         RaycastHit hit;
@@ -92,7 +98,6 @@ public class Player : Character
             else
             {
                 currentZone = hitLayer.value;
-                
             }
         }
     }
