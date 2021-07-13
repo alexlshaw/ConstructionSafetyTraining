@@ -5,7 +5,6 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [Header("Character Attributes")]
-    public float health;
     public float movementSpeed = 5f;
     public float jumpForce = 5f;
     [Header("Ground-check Attributes")]
@@ -15,7 +14,6 @@ public class Character : MonoBehaviour
     protected Vector3 moveDirection;
     protected Rigidbody rb;
     protected bool isGrounded;
-    // Start is called before the first frame update
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,7 +23,6 @@ public class Character : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(position.position, 0.2f, mask);
     }
-    // Update is called once per frame
     protected virtual void FixedUpdate()
     {
         if (isGrounded)
