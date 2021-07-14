@@ -139,6 +139,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2342352658620317553, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
+      propertyPath: VR_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342352658620317553, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
       propertyPath: areas.Array.size
       value: 2
       objectReference: {fileID: 0}

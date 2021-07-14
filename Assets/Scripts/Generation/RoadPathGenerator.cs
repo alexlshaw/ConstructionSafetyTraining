@@ -18,6 +18,8 @@ public class RoadPathGenerator : MonoBehaviour
     
     [Header("Generation Seed Value")]
     public int seed;                    //cfg
+    [Header("VR Settings")]
+    public bool VR_Enabled = false;
     [Header("Individual Sections")]
     public Vector2Int xMinMax;          //cfg
     public Vector2Int yMinMax;          //cfg
@@ -72,6 +74,7 @@ public class RoadPathGenerator : MonoBehaviour
         cfg["Sections"]["targetItemAmount"].IntValue = 5;
         cfg["Prefabs"]["prefab1"].StringValue = "Crane";
         cfg["PrefabsChance"]["prefab1Chance"].FloatValue = 0.05f;
+        cfg["VRSettings"]["Enabled"].BoolValue = false;
     }
     void saveConfig()
     {
@@ -106,7 +109,7 @@ public class RoadPathGenerator : MonoBehaviour
             tempVal.chance = list2[i];
             prefabsToSpawn.Add(tempVal);
         }
-
+        VR_Enabled = cfg["VRSettings"]["Enabled"].BoolValue;
     }
     void addAreas()
     {
@@ -275,6 +278,7 @@ public class RoadPathGenerator : MonoBehaviour
     }
     void addPlayer()
     {
-        Instantiate(Resources.Load("Prefabs/Player"), mf.mesh.bounds.center, Quaternion.identity);
+        GameObject player = Instantiate(Resources.Load("Prefabs/Player") as GameObject, mf.mesh.bounds.center, Quaternion.identity);
+        player.GetComponent<Player>().VR = VR_Enabled;
     }
 }

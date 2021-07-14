@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class Player : Character
 {
@@ -11,7 +12,7 @@ public class Player : Character
     public float interpSpeed = 5f;
     [Header("VR Attributes")]
     public bool VR = false;
-    public GameObject L_Hand;
+    public TrackedPoseDriver tpd;
     [Header("Interaction Variables")]
     public Animator canvasAnimator;
     private AudioSource aud;
@@ -29,6 +30,7 @@ public class Player : Character
     {
         Cursor.lockState = CursorLockMode.Locked;
         aud = GetComponent<AudioSource>();
+        if (VR) { tpd.enabled = true; }
         base.Start();
     }
     protected override void Update()
@@ -45,8 +47,13 @@ public class Player : Character
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
         }
     }
+    public void OnMoveKB(InputValue input)
+    {
+        inputVecMove = input.Get<Vector2>();
+    }
     public void OnMove(InputValue input)
-{
+    {
+        Debug.Log("Controller input detected");
         inputVecMove = input.Get<Vector2>();
     }
     void moveFunc(){
@@ -57,10 +64,6 @@ public class Player : Character
 
     public void OnLook(InputValue input){
         inputVecCam = input.Get<Vector2>();
-    }
-    public void OnLookHMD(InputValue input)
-    {
-        inputVecCamHMD = input.Get<Quaternion>();
     }
     void camFunc(){
         if (moveDirection.magnitude != 0)
@@ -75,11 +78,7 @@ public class Player : Character
         camX += (inputVecCam.x * turnXSpeed);
         camY += (-inputVecCam.y * turnYSpeed);
         camY = Mathf.Clamp(camY, -90f, 90f);
-        if (VR)
-        {
-            Camera.main.transform.rotation = inputVecCamHMD;
-        }
-        else
+        if (!VR)
         {
             Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, Quaternion.Euler(camY, camX, 0f), Time.deltaTime * interpSpeed);
         }
@@ -115,9 +114,5 @@ public class Player : Character
                 currentZone = hitLayer.value;
             }
         }
-    }
-    public void OnLPos(InputValue input)
-    {
-        L_Hand.transform.localPosition = input.Get<Vector3>() - new Vector3(0, 1, 0);
     }
 }
