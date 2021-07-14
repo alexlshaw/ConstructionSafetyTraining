@@ -9,6 +9,9 @@ public class Player : Character
     public float turnXSpeed = 0.1f;
     public float turnYSpeed = 0.1f;
     public float interpSpeed = 5f;
+    [Header("VR Attributes")]
+    public bool VR = false;
+    public GameObject L_Hand;
     [Header("Interaction Variables")]
     public Animator canvasAnimator;
     private AudioSource aud;
@@ -19,6 +22,7 @@ public class Player : Character
     private int multiplier = 1;
     private float bobOffset = 0;
     private Vector2 inputVecCam;
+    private Quaternion inputVecCamHMD;
     private Vector2 inputVecMove;
 
     protected override void Start()
@@ -54,6 +58,10 @@ public class Player : Character
     public void OnLook(InputValue input){
         inputVecCam = input.Get<Vector2>();
     }
+    public void OnLookHMD(InputValue input)
+    {
+        inputVecCamHMD = input.Get<Quaternion>();
+    }
     void camFunc(){
         if (moveDirection.magnitude != 0)
         {
@@ -67,7 +75,14 @@ public class Player : Character
         camX += (inputVecCam.x * turnXSpeed);
         camY += (-inputVecCam.y * turnYSpeed);
         camY = Mathf.Clamp(camY, -90f, 90f);
-        Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, Quaternion.Euler(camY, camX, 0f), Time.deltaTime * interpSpeed);
+        if (VR)
+        {
+            Camera.main.transform.rotation = inputVecCamHMD;
+        }
+        else
+        {
+            Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, Quaternion.Euler(camY, camX, 0f), Time.deltaTime * interpSpeed);
+        }
         Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, new Vector3(0, 1 + bobOffset, 0), Time.deltaTime * interpSpeed);
     }
     void zoneTrace()
@@ -100,5 +115,9 @@ public class Player : Character
                 currentZone = hitLayer.value;
             }
         }
+    }
+    public void OnLPos(InputValue input)
+    {
+        L_Hand.transform.localPosition = input.Get<Vector3>() - new Vector3(0, 1, 0);
     }
 }

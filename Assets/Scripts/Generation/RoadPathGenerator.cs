@@ -275,6 +275,6 @@ public class RoadPathGenerator : MonoBehaviour
     }
     void addPlayer()
     {
-        Instantiate(Resources.Load("Prefabs/PlayerNonVR"), mf.mesh.bounds.center, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs/Player"), mf.mesh.bounds.center, Quaternion.identity);
     }
 }

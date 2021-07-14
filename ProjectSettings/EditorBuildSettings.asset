@@ -4,9 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Samples/OpenXR Plugin/1.2.3/Controller/ControllerSample.unity
+    guid: edb91e86bd8b7dc4ca40ad6c3167de73
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 1ba8b0487410390418655eada9e6c0b5, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 0}
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: d0448b87883e0ba428d79978031794a0, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 4e0ad323bd80443478df3ad0273ce2bc, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0736892cecb0f7b44920393a89af1337, type: 2}
-    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 03c9459b9273ea34f831bb54f16ee98b, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4eec9888c75ab3f46835a38e6e390d67, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: fd5dcdab4fcc6144d9c4564ecc409c99, type: 2}
