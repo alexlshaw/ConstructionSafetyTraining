@@ -37,11 +37,13 @@ public class RoadPathGenerator : MonoBehaviour
     public GameObject trainTracks;
 
     private Configuration cfg;
+    private string filepath;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!File.Exists("config.cfg")){
+        filepath = Application.streamingAssetsPath + "/config.cfg";
+        if (!File.Exists(filepath)){
             Debug.Log("Config not found! Making new config...");
             makeConfig();
             saveConfig();
@@ -78,12 +80,11 @@ public class RoadPathGenerator : MonoBehaviour
     }
     void saveConfig()
     {
-        cfg.SaveToFile("config.cfg");
+        cfg.SaveToFile(filepath);
     }
     void loadConfig()
     {
-        Debug.Log("Loaded config!");
-        cfg = Configuration.LoadFromFile("config.cfg");
+        cfg = Configuration.LoadFromFile(filepath);
 
         var section = cfg["Generator"];
         seed = section["seed"].IntValue;
@@ -110,6 +111,8 @@ public class RoadPathGenerator : MonoBehaviour
             prefabsToSpawn.Add(tempVal);
         }
         VR_Enabled = cfg["VRSettings"]["Enabled"].BoolValue;
+
+        Debug.Log("Loaded config!");
     }
     void addAreas()
     {

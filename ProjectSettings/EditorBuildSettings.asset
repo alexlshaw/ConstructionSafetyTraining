@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/OpenXR Plugin/1.2.3/Controller/ControllerSample.unity
-    guid: edb91e86bd8b7dc4ca40ad6c3167de73
+    path: Assets/Scenes/GeneratorScene.unity
+    guid: 475f0e57b36f661488229955369f05da
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 0}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: d0448b87883e0ba428d79978031794a0, type: 2}
