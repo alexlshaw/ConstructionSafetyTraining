@@ -13,9 +13,6 @@ public class Player : Character
     [Header("VR Attributes")]
     public bool VR = false;
     public TrackedPoseDriver tpd;
-    [Header("Interaction Variables")]
-    public Animator canvasAnimator;
-    private AudioSource aud;
 
     private float camY;
     private float camX;
@@ -29,7 +26,6 @@ public class Player : Character
     protected override void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        aud = GetComponent<AudioSource>();
         if (VR) { tpd.enabled = true; }
         base.Start();
     }
@@ -66,7 +62,7 @@ public class Player : Character
         inputVecCam = input.Get<Vector2>();
     }
     void camFunc(){
-        if (moveDirection.magnitude != 0)
+        if (moveDirection.magnitude != 0 && isGrounded)
         {
             bobOffset += 0.0025f * multiplier;
             if (bobOffset > 0 || bobOffset < -0.25) { multiplier *= -1; }
@@ -105,9 +101,6 @@ public class Player : Character
             {
                 Debug.Log("NoGo");
                 currentZone = hitLayer.value;
-                if (aud.isPlaying) { aud.Stop(); }
-                aud.Play();
-                canvasAnimator.SetTrigger("NoGo");
             }
             else
             {

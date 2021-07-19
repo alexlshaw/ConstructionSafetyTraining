@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2342352658620317554}
   - component: {fileID: 2342352658620317553}
+  - component: {fileID: 5246928573019583036}
   m_Layer: 0
   m_Name: RoadGenerator
   m_TagString: Untagged
@@ -44,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 13
+  VR_Enabled: 1
   xMinMax: {x: 0, y: 0}
   yMinMax: {x: 0, y: 0}
   targetAmount: 0
@@ -56,3 +58,16 @@ MonoBehaviour:
   numBordersRemoved: 2
   wholeSiteBorder: {fileID: 7857798852117718030, guid: 8775bf49898ed454a8f6cd0a40f56cc1, type: 3}
   trainTracks: {fileID: 6542491666685300913, guid: ae11d32c5aa6c554580466401d8bf0af, type: 3}
+--- !u!114 &5246928573019583036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342352658620317559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f738edc9b111104aa40cced8678d4e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawDebugLocations: 0

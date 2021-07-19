@@ -25,7 +25,7 @@ public class Generator : MonoBehaviour
     public Material groundMaterial;
     private List<Vector3> vertices = new List<Vector3>();
     private List<Vector3> prefabLocations = new List<Vector3>();
-    private List<List<bool>> bool_array = new List<List<bool>>();
+    public List<List<bool>> bool_array = new List<List<bool>>();
     public List<GameObject> borderInstances = new List<GameObject>();
 
     public void startGeneration(int seed)

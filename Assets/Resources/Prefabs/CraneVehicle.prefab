@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 22
   ySize: 8
-  generateBorder: 0
+  generateBorder: 1
   randomlyRotate: 0
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
 --- !u!1 &95237972451481554

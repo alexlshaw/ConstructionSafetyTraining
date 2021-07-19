@@ -38,6 +38,7 @@ public class RoadPathGenerator : MonoBehaviour
 
     private Configuration cfg;
     private string filepath;
+    private SiteNavScript nav;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,6 @@ public class RoadPathGenerator : MonoBehaviour
             saveConfig();
         }
         loadConfig();
-
         spawned = new GameObject("groundParent");
         UnityEngine.Random.InitState(seed);
         addAreas();
@@ -62,6 +62,10 @@ public class RoadPathGenerator : MonoBehaviour
         spawned.transform.localScale *= 1.25f;
         generateTrainTracks();
         addPlayer();
+        nav = gameObject.GetComponent<SiteNavScript>();
+        //Debug.Log((nav != null).ToString()+(generators != null).ToString()+(allBorders != null).ToString());
+        nav.getRandomLocations(generators, allBorders);
+        nav.pickLocation();
     }
     void makeConfig()
     {
@@ -271,11 +275,13 @@ public class RoadPathGenerator : MonoBehaviour
         p1 = mf.transform.TransformPoint(p1);
         Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
         p2 = mf.transform.TransformPoint(p2);
-        //Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f);
-        Vector3 pc = (p1 + p2) / 2;
-        float rotation = Vector2.Angle(p1, p2);
-        Vector3 dir = (pc - meshTemp.bounds.center).normalized;
-        GameObject item = Instantiate(trainTracks, (pc + dir * 21f) - Vector3.up * 2.5f, Quaternion.Euler(0f, rotation + 90, 0f));
+        Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f);
+        Vector3 pc = (p1 - p2) / 2.0f + p1;
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.right, p1-p2);
+
+        Vector3 dir = Vector3.Cross(pc - meshTemp.bounds.center, Vector3.up).normalized * 27f;
+
+        GameObject item = Instantiate(trainTracks, dir - Vector3.up * 2.5f, rotation);
         item.transform.localScale *= 5f;
         item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
     }

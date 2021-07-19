@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1749071007}
-  m_IndirectSpecularColor: {r: 0.56962526, g: 0.56929123, b: 0.54291576, a: 1}
+  m_IndirectSpecularColor: {r: 0.5696157, g: 0.5692836, b: 0.5429096, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,10 +139,6 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2342352658620317553, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
-      propertyPath: VR_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2342352658620317553, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
       propertyPath: areas.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -201,6 +197,10 @@ PrefabInstance:
     - target: {fileID: 2342352658620317559, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
       propertyPath: m_Name
       value: RoadGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246928573019583036, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
+      propertyPath: drawDebugLocations
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e20c66135ca655c41990b28bf64319d8, type: 3}
