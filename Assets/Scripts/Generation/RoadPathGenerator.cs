@@ -39,6 +39,7 @@ public class RoadPathGenerator : MonoBehaviour
     private Configuration cfg;
     private string filepath;
     private SiteNavScript nav;
+    private bool drawDebugSpheres;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,7 @@ public class RoadPathGenerator : MonoBehaviour
         addPlayer();
         nav = gameObject.GetComponent<SiteNavScript>();
         //Debug.Log((nav != null).ToString()+(generators != null).ToString()+(allBorders != null).ToString());
+        nav.drawDebugLocations = drawDebugSpheres;
         nav.getRandomLocations(generators, allBorders);
         nav.pickLocation();
     }
@@ -81,6 +83,7 @@ public class RoadPathGenerator : MonoBehaviour
         cfg["Prefabs"]["prefab1"].StringValue = "Crane";
         cfg["PrefabsChance"]["prefab1Chance"].FloatValue = 0.05f;
         cfg["VRSettings"]["Enabled"].BoolValue = false;
+        cfg["NavSettings"]["debugPositionsEnabled"].BoolValue = true;
     }
     void saveConfig()
     {
@@ -115,6 +118,7 @@ public class RoadPathGenerator : MonoBehaviour
             prefabsToSpawn.Add(tempVal);
         }
         VR_Enabled = cfg["VRSettings"]["Enabled"].BoolValue;
+        drawDebugSpheres = cfg["NavSettings"]["debugPositionsEnabled"].BoolValue;
 
         Debug.Log("Loaded config!");
     }
@@ -150,7 +154,6 @@ public class RoadPathGenerator : MonoBehaviour
             if (xinc < maxXSites - 1) { 
                 locationX += (x + generatorBorder); 
                 xinc += 1;
-                
             }
             else {
                 locationX = 0;

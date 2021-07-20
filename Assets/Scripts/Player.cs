@@ -32,9 +32,13 @@ public class Player : Character
     protected override void Update()
     {
         zoneTrace();
-        camFunc();
+        
         moveFunc();
         base.Update();
+    }
+    void LateUpdate()
+    {
+        camFunc();
     }
     public void OnJump()
     {
@@ -64,7 +68,7 @@ public class Player : Character
     void camFunc(){
         if (moveDirection.magnitude != 0 && isGrounded)
         {
-            bobOffset += 0.0025f * multiplier;
+            bobOffset += 0.025f * multiplier;
             if (bobOffset > 0 || bobOffset < -0.25) { multiplier *= -1; }
         }
         else

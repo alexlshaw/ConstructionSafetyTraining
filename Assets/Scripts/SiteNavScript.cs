@@ -8,6 +8,7 @@ public class SiteNavScript : MonoBehaviour
     public bool drawDebugLocations = true;
     private Vector3 targetLocation;
     private GameObject targetIndicator;
+    private List<GameObject> debugSpheres = new List<GameObject>();
 
     public void getRandomLocations(List<Generator> generators, List<GameObject> allBorders)
     {
@@ -29,7 +30,7 @@ public class SiteNavScript : MonoBehaviour
                                 tempBoolDistanceCheck = false;
                             }
                         }
-                        if (tempBoolDistanceCheck)
+                        if (tempBoolDistanceCheck && Physics.Raycast(x0z+Vector3.up, Vector3.down))
                         {
                             locations.Add(x0z);
                         }
@@ -48,6 +49,7 @@ public class SiteNavScript : MonoBehaviour
                 GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 sphere.transform.position = locations[i];
                 sphere.GetComponent<Collider>().enabled = false;
+                debugSpheres.Add(sphere);
             }
         }
         targetLocation = locations[locationIndex];
@@ -60,7 +62,16 @@ public class SiteNavScript : MonoBehaviour
         if (dist < 4)
         {
             Destroy(targetIndicator);
+            nukeSpheres();
             pickLocation();
+        }
+    }
+    void nukeSpheres()
+    {
+        for (int i = 0; i < debugSpheres.Count; i++)
+        {
+            Destroy(debugSpheres[i]);
+            debugSpheres[i] = null;
         }
     }
 }

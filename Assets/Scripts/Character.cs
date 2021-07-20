@@ -18,7 +18,6 @@ public class Character : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-
     protected virtual void Update()
     {
         isGrounded = Physics.CheckSphere(position.position, 0.2f, mask);

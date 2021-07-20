@@ -66,7 +66,6 @@ Transform:
   m_Children:
   - {fileID: 1287251373450680331}
   - {fileID: 3737147811852070816}
-  - {fileID: 7294807215881074462}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -171,7 +170,7 @@ MonoBehaviour:
   turnXSpeed: 0.1
   turnYSpeed: 0.1
   interpSpeed: 5
-  VR: 1
+  VR: 0
   tpd: {fileID: 3737147810559217477}
 --- !u!114 &6323661861030959744
 MonoBehaviour:
@@ -209,9 +208,9 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: OnMove
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 1
     m_ActionId: 9458f872-593b-4119-8ae1-921806ed678e
     m_ActionName: Player/MoveKB[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -288,10 +287,6 @@ MonoBehaviour:
     m_ActionName: XRI RightHand/Rotate Anchor
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 3ce7d118-d46f-45f8-aa2e-2eb3d48c60c1
-    m_ActionName: XRI RightHand/Move
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: c0ab3e04-5ca9-483c-ade1-7697a986102f
     m_ActionName: XRI RightHand/Turn
   - m_PersistentCalls:
@@ -326,7 +321,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6a8e26d3-cf52-4a08-9871-a2d8ce20acf4
     m_ActionName: XRI RightHand/Rotation
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: MainControlScheme
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -350,51 +345,6 @@ MonoBehaviour:
   m_CameraYOffset: 0.5
   m_TrackingSpace: 3
   m_TrackingOriginMode: -2147483648
---- !u!1 &2693115478532748234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7294807215881074462}
-  - component: {fileID: 4393921571199286933}
-  m_Layer: 0
-  m_Name: InputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7294807215881074462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2693115478532748234}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.54024, y: -4.4590735, z: -13.063168}
-  m_LocalScale: {x: 0.57142854, y: 0.57142854, z: 0.57142854}
-  m_Children: []
-  m_Father: {fileID: 1287251374076427688}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4393921571199286933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2693115478532748234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ActionAssets:
-  - {fileID: -944628639613478452, guid: 3ea3dc0e2516c2641af4c1a0e5802c64, type: 3}
 --- !u!1 &3737147810559217534
 GameObject:
   m_ObjectHideFlags: 0
