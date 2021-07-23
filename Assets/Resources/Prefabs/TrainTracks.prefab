@@ -1567,6 +1567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 6542491665866876841}
   end: {fileID: 6542491667066359435}
+  movementStep: 0.00025
+  delayBetweenTrains: 2
 --- !u!82 &4879342408811548054
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1590,7 +1592,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
