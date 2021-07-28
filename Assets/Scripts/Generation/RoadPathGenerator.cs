@@ -11,7 +11,6 @@ public class RoadPathGenerator : MonoBehaviour
     private List<Generator> generators = new List<Generator>();
     private List<GameObject> areas = new List<GameObject>();
     private List<GameObject> allBorders = new List<GameObject>();
-    private List<dict> prefabsToSpawn = new List<dict>();           //cfg
     private List<Vector3> vertices;
     private GameObject spawned = null;
     private MeshFilter mf;
@@ -20,12 +19,6 @@ public class RoadPathGenerator : MonoBehaviour
     public int seed;                    //cfg
     [Header("VR Settings")]
     public bool VR_Enabled = false;
-    [Header("Individual Sections")]
-    public Vector2Int xMinMax;          //cfg
-    public Vector2Int yMinMax;          //cfg
-    public int targetAmount;            //cfg
-    public GameObject genPrefab;
-    public int sectionAmount;           //cfg
     
     [Header("Overall Site")]
     public Material groundMaterial;
@@ -35,6 +28,7 @@ public class RoadPathGenerator : MonoBehaviour
     public int numBordersRemoved;       //cfg
     public GameObject wholeSiteBorder;
     public GameObject trainTracks;
+    public int trainDistance;           //cfg
 
     private Configuration cfg;
     private string filepath;
@@ -53,8 +47,6 @@ public class RoadPathGenerator : MonoBehaviour
         loadConfig();
         spawned = new GameObject("groundParent");
         UnityEngine.Random.InitState(seed);
-        addAreas();
-        startGeneration();
         moveAreas();
         generateBoundingGeometry();
         generateGroundPolygon();
@@ -76,12 +68,11 @@ public class RoadPathGenerator : MonoBehaviour
         cfg["Generator"]["generatorBorder"].IntValue = 10;
         cfg["Generator"]["maxXSites"].IntValue = 3;
         cfg["Generator"]["NumBordersRemoved"].IntValue = 2;
-        cfg["Sections"]["sectionAmount"].IntValue = 3;
-        cfg["Sections"]["sectionXSizeMinMax"].IntValueArray = new int[] { 30, 40 };
-        cfg["Sections"]["sectionYSizeMinMax"].IntValueArray = new int[] { 30, 40 };
-        cfg["Sections"]["targetItemAmount"].IntValue = 5;
-        cfg["Prefabs"]["prefab1"].StringValue = "Crane";
-        cfg["PrefabsChance"]["prefab1Chance"].FloatValue = 0.05f;
+        cfg["Generator"]["trainDistance"].IntValue = 20;
+        cfg["Section"]["sectionXSizeMinMax"].IntValueArray = new int[] { 30, 40 };
+        cfg["Section"]["sectionYSizeMinMax"].IntValueArray = new int[] { 30, 40 };
+        cfg["Section"]["targetItemAmount"].IntValue = 5;
+        cfg["Section"]["p1"].StringValueArray = new string[] { "Crane", "1" };
         cfg["VRSettings"]["Enabled"].BoolValue = false;
         cfg["NavSettings"]["debugPositionsEnabled"].BoolValue = true;
     }
@@ -98,55 +89,55 @@ public class RoadPathGenerator : MonoBehaviour
         generatorBorder = section["generatorBorder"].IntValue;
         maxXSites = section["maxXSites"].IntValue;
         numBordersRemoved = section["numBordersRemoved"].IntValue;
-
-        section = cfg["Sections"];
-        sectionAmount = section["sectionAmount"].IntValue;
-        int[] x = section["sectionXSizeMinMax"].IntValueArray;
-        int[] y = section["sectionYSizeMinMax"].IntValueArray;
-        xMinMax = new Vector2Int(x[0],x[1]);
-        yMinMax = new Vector2Int(y[0],y[1]);
-        targetAmount = section["targetItemAmount"].IntValue;
-        List<string> list1 = new List<string>();
-        List<float> list2 = new List<float>();
-        foreach (var setting in cfg["Prefabs"]){ list1.Add(setting.StringValue); }
-        foreach (var setting in cfg["PrefabsChance"]){ list2.Add(setting.FloatValue); }
-        for (int i = 0; i < list1.Count; i++)
+        trainDistance = section["trainDistance"].IntValue;
+        int i = 0;
+        foreach (var sectionOverall in cfg)
         {
-            dict tempVal = new dict();
-            tempVal.item = Resources.Load<GameObject>("Prefabs/"+list1[i]);
-            tempVal.chance = list2[i];
-            prefabsToSpawn.Add(tempVal);
+            if (sectionOverall.Name.Substring(0,7).ToLower() == "section")
+            {
+                GameObject area = Instantiate(Resources.Load("Prefabs/GeneratorPrefab") as GameObject);
+                areas.Add(area);
+                generators.Add(area.GetComponent<Generator>());
+
+                int[] x = sectionOverall["sectionXSizeMinMax"].IntValueArray;
+                int[] y = sectionOverall["sectionYSizeMinMax"].IntValueArray;
+                Vector2Int xMinMax = new Vector2Int(x[0], x[1]);
+                Vector2Int yMinMax = new Vector2Int(y[0], y[1]);
+                int targetAmount = sectionOverall["targetItemAmount"].IntValue;
+                List<dict> prefabsToSpawn = new List<dict>();
+                foreach (var setting in sectionOverall)
+                {
+                    if (setting.Name.ToLower() == "prefab")
+                    {
+                        string[] tempArray = setting.StringValueArray;
+                        string prefabName = tempArray[0];
+                        float chance = float.Parse(tempArray[1]);
+                        dict tempVal = new dict();
+                        tempVal.item = Resources.Load<GameObject>("Prefabs/" + prefabName);
+                        tempVal.chance = chance;
+                        prefabsToSpawn.Add(tempVal);
+                    }
+                }
+                generators[i].xSize = UnityEngine.Random.Range(xMinMax.x, xMinMax.y);
+                generators[i].ySize = UnityEngine.Random.Range(yMinMax.x, yMinMax.y);
+                generators[i].targetItems = targetAmount;
+                generators[i].prefabsToSpawn = prefabsToSpawn;
+                generators[i].startGeneration(seed + i);
+                foreach (GameObject border in generators[i].borderInstances) { allBorders.Add(border); }
+                i++;
+            }
         }
         VR_Enabled = cfg["VRSettings"]["Enabled"].BoolValue;
         drawDebugSpheres = cfg["NavSettings"]["debugPositionsEnabled"].BoolValue;
-
         Debug.Log("Loaded config!");
     }
-    void addAreas()
-    {
-        for (int i = 0; i < sectionAmount; i++){
-            GameObject area = Instantiate(genPrefab);
-            areas.Add(area);
-            generators.Add(area.GetComponent<Generator>());
-        }
-    }
-    void startGeneration()
-    {
-        for (int i = 0; i < sectionAmount; i++){
-            generators[i].xSize = UnityEngine.Random.Range(xMinMax.x, xMinMax.y);
-            generators[i].ySize = UnityEngine.Random.Range(yMinMax.x, yMinMax.y);
-            generators[i].targetItems = targetAmount;
-            generators[i].prefabsToSpawn = prefabsToSpawn;
-            generators[i].startGeneration(seed + i);
-            foreach (GameObject border in generators[i].borderInstances) { allBorders.Add(border); }
-        }
-    }
+
     private void moveAreas()
     {
         float locationX = 0;
         float locationY = 0;
         int xinc = 0;
-        for (int i = 0; i < sectionAmount; i++)
+        for (int i = 0; i < generators.Count; i++)
         {
             areas[i].transform.position = new Vector3(locationX, 0, locationY);
             int x = generators[i].xSize;
@@ -275,16 +266,19 @@ public class RoadPathGenerator : MonoBehaviour
         Mesh meshTemp = mf.mesh;
         int index = UnityEngine.Random.Range(0, meshTemp.vertices.Length);
         Vector3 p1 = meshTemp.vertices[index];
+
+
         p1 = mf.transform.TransformPoint(p1);
         Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
         p2 = mf.transform.TransformPoint(p2);
-        Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f);
-        Vector3 pc = (p1 - p2) / 2.0f + p1;
+        Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f); //Debug
+        Vector3 pc = Vector3.Lerp(p1, p2, 0.5f);
         Quaternion rotation = Quaternion.FromToRotation(Vector3.right, p1-p2);
 
-        Vector3 dir = Vector3.Cross(pc - meshTemp.bounds.center, Vector3.up).normalized * 27f;
+        Vector3 dir = Vector3.Cross(p1-p2, Vector3.up).normalized;
+        Debug.DrawLine(pc + (Vector3.up * 2), dir*100f + (Vector3.up * 2), Color.yellow, 100f); //Debug
 
-        GameObject item = Instantiate(trainTracks, dir - Vector3.up * 2.5f, rotation);
+        GameObject item = Instantiate(trainTracks, pc+(dir* trainDistance) - Vector3.up * 2.5f, rotation);
         item.transform.localScale *= 5f;
         item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
     }
