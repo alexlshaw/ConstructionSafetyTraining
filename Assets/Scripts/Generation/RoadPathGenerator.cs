@@ -28,7 +28,6 @@ public class RoadPathGenerator : MonoBehaviour
     public int numBordersRemoved;       //cfg
     public GameObject wholeSiteBorder;
     public GameObject trainTracks;
-    public int trainDistance;           //cfg
 
     private Configuration cfg;
     private string filepath;
@@ -68,7 +67,6 @@ public class RoadPathGenerator : MonoBehaviour
         cfg["Generator"]["generatorBorder"].IntValue = 10;
         cfg["Generator"]["maxXSites"].IntValue = 3;
         cfg["Generator"]["NumBordersRemoved"].IntValue = 2;
-        cfg["Generator"]["trainDistance"].IntValue = 20;
         cfg["Section"]["sectionXSizeMinMax"].IntValueArray = new int[] { 30, 40 };
         cfg["Section"]["sectionYSizeMinMax"].IntValueArray = new int[] { 30, 40 };
         cfg["Section"]["targetItemAmount"].IntValue = 5;
@@ -89,7 +87,6 @@ public class RoadPathGenerator : MonoBehaviour
         generatorBorder = section["generatorBorder"].IntValue;
         maxXSites = section["maxXSites"].IntValue;
         numBordersRemoved = section["numBordersRemoved"].IntValue;
-        trainDistance = section["trainDistance"].IntValue;
         int i = 0;
         foreach (var sectionOverall in cfg)
         {
@@ -266,19 +263,16 @@ public class RoadPathGenerator : MonoBehaviour
         Mesh meshTemp = mf.mesh;
         int index = UnityEngine.Random.Range(0, meshTemp.vertices.Length);
         Vector3 p1 = meshTemp.vertices[index];
-
-
-        p1 = mf.transform.TransformPoint(p1);
         Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
+        p1 = mf.transform.TransformPoint(p1);
         p2 = mf.transform.TransformPoint(p2);
-        Debug.DrawLine(p1 + (Vector3.up * 2), p2 + (Vector3.up * 2), Color.yellow, 100f); //Debug
+
         Vector3 pc = Vector3.Lerp(p1, p2, 0.5f);
         Quaternion rotation = Quaternion.FromToRotation(Vector3.right, p1-p2);
+        Vector3 dir = Vector3.Cross(p2-p1, Vector3.up).normalized;
+        Vector3 rotvec = Quaternion.AngleAxis(90, Vector3.up) * ((p2 - p1).normalized);
 
-        Vector3 dir = Vector3.Cross(p1-p2, Vector3.up).normalized;
-        Debug.DrawLine(pc + (Vector3.up * 2), dir*100f + (Vector3.up * 2), Color.yellow, 100f); //Debug
-
-        GameObject item = Instantiate(trainTracks, pc+(dir* trainDistance) - Vector3.up * 2.5f, rotation);
+        GameObject item = Instantiate(trainTracks, pc+(rotvec*200) - (Vector3.up * 2.5f), rotation);
         item.transform.localScale *= 5f;
         item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
     }
