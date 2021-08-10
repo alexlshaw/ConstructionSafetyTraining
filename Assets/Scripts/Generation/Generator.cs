@@ -58,7 +58,6 @@ public class Generator : MonoBehaviour
                     GameObject item = input_item.item;
                     int h = UnityEngine.Random.Range(0, ySize - 1);
                     int w = UnityEngine.Random.Range(0, xSize - 1);
-                    
                     currentPrefab = item;
                     int prefabX = currentPrefab.GetComponent<GeneratedItem>().xSize + 1;
                     int prefabY = currentPrefab.GetComponent<GeneratedItem>().ySize + 1;
@@ -84,7 +83,9 @@ public class Generator : MonoBehaviour
                         float new_w = w + gameObject.transform.position.x;
                         float new_h = h + gameObject.transform.position.z;
                         GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
-                        craneCheck(new Vector3(new_w, 0.5f, new_h));
+
+                        craneCheck(prefab);
+
                         prefab.transform.parent = gameObject.transform;
                         prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
                         prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
@@ -95,11 +96,11 @@ public class Generator : MonoBehaviour
             }
         }
     }
-    void craneCheck(Vector3 location)
+    void craneCheck(GameObject prefab)
     {
-        GameObject[] craneSearch = GameObject.FindGameObjectsWithTag("Crane");
+        //GameObject[] craneSearch = GameObject.FindGameObjectsWithTag("Crane");
         GameObject cyl = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        cyl.transform.position = location;
+        cyl.transform.position = prefab.transform.position;
     }
     void generateBoundingGeometry()
     {
