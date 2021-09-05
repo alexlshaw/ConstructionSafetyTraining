@@ -15,6 +15,7 @@ public class Generator : MonoBehaviour
     public int xSize;
     public int ySize;
     public int targetItems;
+    public int craneMax;
     public List<dict> prefabsToSpawn = new List<dict>();
     public List<GameObject> borderPrefabs;
     public GameObject box;
@@ -82,25 +83,38 @@ public class Generator : MonoBehaviour
                         Quaternion rotation = (currentPrefab.GetComponent<GeneratedItem>().randomlyRotate) ? Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360 - 1), 0f) : Quaternion.identity;
                         float new_w = w + gameObject.transform.position.x;
                         float new_h = h + gameObject.transform.position.z;
-                        GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
 
-                        craneCheck(prefab);
-
-                        prefab.transform.parent = gameObject.transform;
-                        prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
-                        prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
-                        prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
-                        prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
+                        if (currentPrefab.tag == "Crane")
+                        {
+                            if (craneCheck())
+                            {
+                                GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
+                                prefab.transform.parent = gameObject.transform;
+                                prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
+                                prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
+                                prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
+                                prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
+                            }
+                        }
+                        else
+                        {
+                            GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
+                            prefab.transform.parent = gameObject.transform;
+                            prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
+                            prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
+                            prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
+                            prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
+                        }
+                        
                     }
                 }
             }
         }
     }
-    void craneCheck(GameObject prefab)
+    bool craneCheck()
     {
-        //GameObject[] craneSearch = GameObject.FindGameObjectsWithTag("Crane");
-        GameObject cyl = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        cyl.transform.position = prefab.transform.position;
+        GameObject[] craneSearch = GameObject.FindGameObjectsWithTag("Crane");
+        return craneSearch.Length < craneMax;
     }
     void generateBoundingGeometry()
     {

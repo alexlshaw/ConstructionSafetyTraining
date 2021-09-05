@@ -67,12 +67,13 @@ public class RoadPathGenerator : MonoBehaviour
         cfg["Generator"]["generatorBorder"].IntValue = 10;
         cfg["Generator"]["maxXSites"].IntValue = 3;
         cfg["Generator"]["NumBordersRemoved"].IntValue = 2;
+        cfg["Generator"]["CraneAmount"].IntValue = 1;
         cfg["Section"]["sectionXSizeMinMax"].IntValueArray = new int[] { 30, 40 };
         cfg["Section"]["sectionYSizeMinMax"].IntValueArray = new int[] { 30, 40 };
         cfg["Section"]["targetItemAmount"].IntValue = 5;
         cfg["Section"]["p1"].StringValueArray = new string[] { "Crane", "1" };
         cfg["VRSettings"]["Enabled"].BoolValue = false;
-        cfg["NavSettings"]["debugPositionsEnabled"].BoolValue = true;
+        cfg["NavSettings"]["debugPositionsEnabled"].BoolValue = false;
     }
     void saveConfig()
     {
@@ -87,6 +88,7 @@ public class RoadPathGenerator : MonoBehaviour
         generatorBorder = section["generatorBorder"].IntValue;
         maxXSites = section["maxXSites"].IntValue;
         numBordersRemoved = section["numBordersRemoved"].IntValue;
+        int craneAmount = section["CraneAmount"].IntValue;
         int i = 0;
         foreach (var sectionOverall in cfg)
         {
@@ -119,6 +121,7 @@ public class RoadPathGenerator : MonoBehaviour
                 generators[i].ySize = UnityEngine.Random.Range(yMinMax.x, yMinMax.y);
                 generators[i].targetItems = targetAmount;
                 generators[i].prefabsToSpawn = prefabsToSpawn;
+                generators[i].craneMax = craneAmount;
                 generators[i].startGeneration(seed + i);
                 foreach (GameObject border in generators[i].borderInstances) { allBorders.Add(border); }
                 i++;
@@ -272,13 +275,19 @@ public class RoadPathGenerator : MonoBehaviour
         Vector3 dir = Vector3.Cross(p2-p1, Vector3.up).normalized;
         Vector3 rotvec = Quaternion.AngleAxis(90, Vector3.up) * ((p2 - p1).normalized);
 
-        GameObject item = Instantiate(trainTracks, pc+(rotvec*200) - (Vector3.up * 2.5f), rotation);
+        GameObject item = Instantiate(trainTracks, pc+(rotvec*20) - (Vector3.up * 2.5f), rotation);
         item.transform.localScale *= 5f;
         item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
     }
     void addPlayer()
     {
-        GameObject player = Instantiate(Resources.Load("Prefabs/Player") as GameObject, mf.mesh.bounds.center, Quaternion.identity);
-        player.GetComponent<Player>().VR = VR_Enabled;
+        if (VR_Enabled)
+        {
+            GameObject player = Instantiate(Resources.Load("Prefabs/XR_Rig") as GameObject, mf.mesh.bounds.center, Quaternion.identity);
+        }
+        else
+        {
+            GameObject player = Instantiate(Resources.Load("Prefabs/Player") as GameObject, mf.mesh.bounds.center, Quaternion.identity);
+        }
     }
 }
