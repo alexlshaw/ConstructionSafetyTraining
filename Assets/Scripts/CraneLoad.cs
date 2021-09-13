@@ -27,10 +27,10 @@ public class CraneLoad : MonoBehaviour
         if (time > Random.Range(5f,10f) && doChecking)
         {
             time = 0f;
-            Vector3 h1start = transform.TransformPoint(new Vector3(1, 0, 0));
-            Vector3 h2start = transform.TransformPoint(new Vector3(-1, 0, 0));
-            Vector3 h3start = transform.TransformPoint(new Vector3(0, 0, 0.5f));
-            Vector3 h4start = transform.TransformPoint(new Vector3(0, 0, -0.5f));
+            Vector3 h1start = transform.TransformPoint(new Vector3(0.75f, 0, 0));
+            Vector3 h2start = transform.TransformPoint(new Vector3(-0.75f, 0, 0));
+            Vector3 h3start = transform.TransformPoint(new Vector3(0, 0, 1f));
+            Vector3 h4start = transform.TransformPoint(new Vector3(0, 0, -1f));
             RaycastHit h1;
             RaycastHit h2;
             RaycastHit h3;
@@ -67,7 +67,7 @@ public class CraneLoad : MonoBehaviour
         float elapsedTime = 0;
         float waitTime = 10f;
         Vector3 startPos = new Vector3(transform.localPosition.x, 90, transform.localPosition.z);
-        Vector3 endPos = new Vector3(transform.localPosition.x, 1.5f, transform.localPosition.z);
+        Vector3 endPos = new Vector3(transform.localPosition.x, 2f, transform.localPosition.z);
         
         while (elapsedTime < waitTime)
         {

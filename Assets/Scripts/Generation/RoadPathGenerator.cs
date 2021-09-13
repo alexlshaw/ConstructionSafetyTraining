@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using SharpConfig;
 using System.IO;
+using UnityEngine.AI;
 
 public class RoadPathGenerator : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class RoadPathGenerator : MonoBehaviour
     private string filepath;
     private SiteNavScript nav;
     private bool drawDebugSpheres;
+    private NavMeshSurface nms;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +61,7 @@ public class RoadPathGenerator : MonoBehaviour
         nav.drawDebugLocations = drawDebugSpheres;
         nav.getRandomLocations(generators, allBorders);
         nav.pickLocation();
+        nms.BuildNavMesh();
     }
     void makeConfig()
     {
@@ -161,6 +164,7 @@ public class RoadPathGenerator : MonoBehaviour
     void generateGroundPolygon()
     {
         GameObject ground = new GameObject("groundMesh");
+        ground.layer = 1;
         mf = ground.AddComponent<MeshFilter>();
         Mesh msh = mf.mesh;
         List<Vector2> vertices2d = new List<Vector2>();
@@ -179,6 +183,8 @@ public class RoadPathGenerator : MonoBehaviour
         Vector3 center = renderer.bounds.center;
         spawned.transform.position = center;
         ground.transform.parent = spawned.transform;
+
+        nms = ground.AddComponent<NavMeshSurface>();
     }
     void removeClosestBorder()
     {
