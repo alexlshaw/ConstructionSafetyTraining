@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 5112802297319062306}
   m_Layer: 0
   m_Name: CraneVehicle
-  m_TagString: Untagged
+  m_TagString: MovingVehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -376,7 +376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8982787106784862414
 Transform:
   m_ObjectHideFlags: 0

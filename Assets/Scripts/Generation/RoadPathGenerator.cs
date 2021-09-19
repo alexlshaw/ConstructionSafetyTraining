@@ -56,6 +56,7 @@ public class RoadPathGenerator : MonoBehaviour
         spawned.transform.localScale *= 1.25f;
         generateTrainTracks();
         addPlayer();
+        addSign();
         nav = gameObject.GetComponent<SiteNavScript>();
         //Debug.Log((nav != null).ToString()+(generators != null).ToString()+(allBorders != null).ToString());
         nav.drawDebugLocations = drawDebugSpheres;
@@ -295,5 +296,9 @@ public class RoadPathGenerator : MonoBehaviour
         {
             GameObject player = Instantiate(Resources.Load("Prefabs/Player") as GameObject, mf.mesh.bounds.center, Quaternion.identity);
         }
+    }
+    void addSign()
+    {
+        Instantiate(Resources.Load("Prefabs/Sign") as GameObject, new Vector3(0, 2, 0), Quaternion.Euler(0,0,0));
     }
 }

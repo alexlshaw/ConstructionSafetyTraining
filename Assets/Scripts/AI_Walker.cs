@@ -10,6 +10,7 @@ public class AI_Walker : MonoBehaviour
     private Vector3 walkPoint;
     private bool canWalk;
     private Animator animator;
+    public GameObject mesh;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,8 @@ public class AI_Walker : MonoBehaviour
     {
         goToPoint();
         animator.SetFloat("Blend", agent.velocity.magnitude / agent.speed);
+        float dir = Vector3.Dot(transform.right, agent.velocity.normalized);
+        mesh.transform.localRotation = Quaternion.Euler(0, 0, dir*-20f);
     }
     void findPoint()
     {

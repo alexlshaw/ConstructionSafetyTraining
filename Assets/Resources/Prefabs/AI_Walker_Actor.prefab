@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkPointRange: 20
+  mesh: {fileID: 4370594909503842962}
 --- !u!195 &3487493894075533382
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -145,6 +146,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 1bfcd5e42457a924890e221782aef951, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f982aaf60aa4ad546aa10f37ec68e787, type: 3}
+--- !u!1 &4370594909503842962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f982aaf60aa4ad546aa10f37ec68e787, type: 3}
+  m_PrefabInstance: {fileID: 3487493893830105027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4029780782853337128 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f982aaf60aa4ad546aa10f37ec68e787, type: 3}
