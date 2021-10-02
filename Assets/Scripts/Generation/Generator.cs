@@ -20,9 +20,8 @@ public class Generator : MonoBehaviour
     public List<GameObject> borderPrefabs;
     public GameObject box;
     public Quaternion borderRotationOffset = Quaternion.Euler(0, 90, 0);
-    public float borderSpacing = 4.5f;
-    public float minimumDistanceApart = 2.5f;
     private GameObject currentPrefab;
+    private GameObject ground;
     public Material groundMaterial;
     private List<Vector3> vertices = new List<Vector3>();
     private List<Vector3> prefabLocations = new List<Vector3>();
@@ -51,11 +50,15 @@ public class Generator : MonoBehaviour
             bool_array.Add(tempList);
         }
     }
-    void generatePrefabs(){
-        for (int i = 0; i < targetItems; i++){
-            foreach (dict input_item in prefabsToSpawn){
+    void generatePrefabs()
+    {
+        for (int i = 0; i < targetItems; i++)
+        {
+            foreach (dict input_item in prefabsToSpawn)
+            {
                 float val = UnityEngine.Random.value;
-                if (val < input_item.chance){
+                if (val < input_item.chance)
+                {
                     GameObject item = input_item.item;
                     int h = UnityEngine.Random.Range(0, ySize - 1);
                     int w = UnityEngine.Random.Range(0, xSize - 1);
@@ -63,19 +66,27 @@ public class Generator : MonoBehaviour
                     int prefabX = currentPrefab.GetComponent<GeneratedItem>().xSize + 1;
                     int prefabY = currentPrefab.GetComponent<GeneratedItem>().ySize + 1;
                     bool areaIsInUse = false;
-                    for (int y = -prefabY; y < prefabY; y++){
-                        for (int x = -prefabX; x < prefabX; x++){
-                            if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize){
-                                if (bool_array[h + y][w + x] == true){
+                    for (int y = -prefabY; y < prefabY; y++)
+                    {
+                        for (int x = -prefabX; x < prefabX; x++)
+                        {
+                            if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize)
+                            {
+                                if (bool_array[h + y][w + x] == true)
+                                {
                                     areaIsInUse = true;
                                 }
                             }
                         }
                     }
-                    if (areaIsInUse == false){
-                        for (int y = -prefabY; y < prefabY; y++){
-                            for (int x = -prefabX; x < prefabX; x++){
-                                if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize){
+                    if (areaIsInUse == false)
+                    {
+                        for (int y = -prefabY; y < prefabY; y++)
+                        {
+                            for (int x = -prefabX; x < prefabX; x++)
+                            {
+                                if (h + y >= 0 && h + y < ySize && w + x >= 0 && w + x < xSize)
+                                {
                                     bool_array[h + y][w + x] = true;
                                 }
                             }
@@ -105,7 +116,7 @@ public class Generator : MonoBehaviour
                             prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
                             prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h - prefabY));
                         }
-                        
+
                     }
                 }
             }
@@ -123,7 +134,7 @@ public class Generator : MonoBehaviour
 
     void generateGroundPolygon()
     {
-        GameObject ground = new GameObject("groundMesh");
+        ground = new GameObject("groundMesh");
         ground.transform.parent = gameObject.transform;
         Mesh msh = ground.AddComponent<MeshFilter>().mesh;
         List<Vector2> vertices2d = new List<Vector2>();
@@ -141,32 +152,73 @@ public class Generator : MonoBehaviour
     void generateBorderPrefabs()
     {
         int index = UnityEngine.Random.Range(0, borderPrefabs.Count);
-        vertices.Add(vertices[0]);
-        for (int i = 0; i < vertices.Count - 1; i++)
+        vertices.Add(vertices[0]); //Add first vertex to end to create loop
+        for (int i = 0; i < vertices.Count-1; i++)
         {
-            Vector2 p1 = new Vector2(vertices[i].x, vertices[i].z);
-            Vector2 p2 = new Vector2(vertices[i + 1].x, vertices[i + 1].z);
-            float distance = Vector2.Distance(p1, p2);
+            Vector3 p1 = vertices[i];
+            Vector3 p2 = vertices[i + 1];
+            float distance = Vector3.Distance(p1, p2);
 
-            for (float x = 0; x < distance; x += borderSpacing)
+            for (float x = 0; x < distance; x += 6.05f)
             {
-                float value = x / distance;
-                Vector2 pos = Vector2.Lerp(p1, p2, value);
-                Vector3 pos3d = new Vector3(pos.x, 0f, pos.y);
-                Quaternion rotation = Quaternion.LookRotation((vertices[i + 1] - pos3d).normalized) * borderRotationOffset;
-                bool toggle = true;
-                foreach (GameObject item in borderInstances){
-                    if (Vector3.Distance(item.transform.position, pos3d) < minimumDistanceApart){
-                        toggle = false;
+                float percentageOfDistance = x / distance;
+                if (percentageOfDistance < 1.0) //check that current spawn is actually on the edge (between the two vertices)
+                {
+                    Vector3 position = Vector3.Lerp(p1, p2, percentageOfDistance);
+
+                    bool shouldSpawn = true;
+                    foreach (GameObject item in borderInstances)
+                    {
+                        if (Vector3.Distance(item.transform.position, position) <= 3.025) //half the spacing between border prefabs is the minimum distance from the current to any border
+                        {
+                            shouldSpawn = false;
+                        }
+                    }
+                    if (shouldSpawn)
+                    {
+                        GameObject border = Instantiate(borderPrefabs[index], position, Quaternion.identity);
+                        border.transform.LookAt(p2);
+                        border.transform.parent = gameObject.transform;
+                        borderInstances.Add(border);
                     }
                 }
-                if (toggle)
-                { 
-                    GameObject border = Instantiate(borderPrefabs[index], pos3d, rotation);
-                    border.transform.parent = gameObject.transform;
-                    borderInstances.Add(border);
-                }
             }
+        }
+    }
+
+    public void generateTracks()
+    {
+        Vector3[] groundVertices = ground.GetComponent<MeshFilter>().mesh.vertices;
+        for (int i = 0; i < groundVertices.Length; i++)
+        {
+            groundVertices[i] = ground.transform.TransformPoint(groundVertices[i]);
+            GameObject prim = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            prim.transform.position = groundVertices[i];
+        }
+        for (int i = 0; i < groundVertices.Length - 2; i += 3)
+        {
+            TrackScript tr = Instantiate(Resources.Load("Prefabs/TrackRenderer") as GameObject).GetComponent<TrackScript>();
+            Vector3[] newPoints = new Vector3[] { groundVertices[i], groundVertices[i + 1], groundVertices[i + 2] };
+
+            Vector3 averagePoint = (newPoints[0] + newPoints[1] + newPoints[2]) / 3;
+            Vector3 centerPoint = ground.transform.TransformPoint(ground.GetComponent<MeshFilter>().mesh.bounds.center);
+            GameObject prim = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            prim.transform.localScale = new Vector3(10,10,10);
+            prim.transform.position = centerPoint;
+            Vector3 directionToMoveAway = Vector3.Normalize(averagePoint-centerPoint) * 10f;
+            newPoints[0] += directionToMoveAway;
+            newPoints[1] += directionToMoveAway;
+            newPoints[2] += directionToMoveAway;
+
+            for (int v = 0; v < 3; v++)
+            {
+                newPoints[v] += new Vector3(0, 0.01f, 0);
+            }
+            tr.points = newPoints;
+            tr.vertexAmount = 12;
+            tr.create();
+
+            tr.transform.parent = transform;
         }
     }
 }

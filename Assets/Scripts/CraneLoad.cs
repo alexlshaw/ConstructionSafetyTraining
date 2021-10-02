@@ -9,6 +9,7 @@ public class CraneLoad : MonoBehaviour
     private bool doChecking = true;
     private LineRenderer lr;
     private float startRotY;
+    private int multiplier = 1;
 
     private void Start()
     {
@@ -20,33 +21,39 @@ public class CraneLoad : MonoBehaviour
         lr.SetPosition(1, new Vector3(0, (100-transform.localPosition.y)/4, 0));
         if (doRotate)
         {
-            transform.parent.transform.Rotate(Vector3.up, 0.01f);
+            transform.parent.transform.Rotate(Vector3.up, 0.01f*multiplier);
         }
         
         time += Time.deltaTime;
-        if (time > Random.Range(5f,10f) && doChecking)
+
+        Vector3 h1start = transform.TransformPoint(new Vector3(0.75f, 0, 0));
+        Vector3 h2start = transform.TransformPoint(new Vector3(-0.75f, 0, 0));
+        Vector3 h3start = transform.TransformPoint(new Vector3(0, 0, 1f));
+        Vector3 h4start = transform.TransformPoint(new Vector3(0, 0, -1f));
+        RaycastHit h1;
+        RaycastHit h2;
+        RaycastHit h3;
+        RaycastHit h4;
+        bool r1 = Physics.Raycast(h1start, transform.TransformDirection(Vector3.down), out h1, Mathf.Infinity);
+        //Debug.DrawRay(h1start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
+
+        bool r2 = Physics.Raycast(h2start, transform.TransformDirection(Vector3.down), out h2, Mathf.Infinity);
+        //Debug.DrawRay(h2start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
+
+        bool r3 = Physics.Raycast(h3start, transform.TransformDirection(Vector3.down), out h3, Mathf.Infinity);
+        //Debug.DrawRay(h3start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
+
+        bool r4 = Physics.Raycast(h4start, transform.TransformDirection(Vector3.down), out h4, Mathf.Infinity);
+        //Debug.DrawRay(h4start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
+
+        if (!r1 && !r2 && !r3 && !r4)
+        {
+            multiplier *= -1;
+        }
+
+        if (time > Random.Range(5f, 10f) && doChecking)
         {
             time = 0f;
-            Vector3 h1start = transform.TransformPoint(new Vector3(0.75f, 0, 0));
-            Vector3 h2start = transform.TransformPoint(new Vector3(-0.75f, 0, 0));
-            Vector3 h3start = transform.TransformPoint(new Vector3(0, 0, 1f));
-            Vector3 h4start = transform.TransformPoint(new Vector3(0, 0, -1f));
-            RaycastHit h1;
-            RaycastHit h2;
-            RaycastHit h3;
-            RaycastHit h4;
-            bool r1 = Physics.Raycast(h1start, transform.TransformDirection(Vector3.down), out h1, Mathf.Infinity);
-            //Debug.DrawRay(h1start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
-
-            bool r2 = Physics.Raycast(h2start, transform.TransformDirection(Vector3.down), out h2, Mathf.Infinity);
-            //Debug.DrawRay(h2start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
-
-            bool r3 = Physics.Raycast(h3start, transform.TransformDirection(Vector3.down), out h3, Mathf.Infinity);
-            //Debug.DrawRay(h3start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
-
-            bool r4 = Physics.Raycast(h4start, transform.TransformDirection(Vector3.down), out h4, Mathf.Infinity);
-            //Debug.DrawRay(h4start, transform.TransformDirection(Vector3.down) * 100, Color.yellow, 10f);
-            
             if (r1 && r2 && r3 && r4)
             {
                 if (!h1.collider.gameObject.CompareTag("Train") && !h2.collider.gameObject.CompareTag("Train") &&
