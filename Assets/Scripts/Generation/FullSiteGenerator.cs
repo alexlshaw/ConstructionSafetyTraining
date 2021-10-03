@@ -40,6 +40,7 @@ public class FullSiteGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UnityEngine.Random.InitState(seed);
         filepath = Application.streamingAssetsPath + "/config.cfg";
         if (!File.Exists(filepath)){
             Debug.Log("Config not found! Making new config...");

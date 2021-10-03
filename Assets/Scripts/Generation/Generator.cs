@@ -192,22 +192,16 @@ public class Generator : MonoBehaviour
         for (int i = 0; i < groundVertices.Length; i++)
         {
             groundVertices[i] = ground.transform.TransformPoint(groundVertices[i]);
-            GameObject prim = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            prim.transform.position = groundVertices[i];
         }
         for (int i = 0; i < groundVertices.Length - 2; i += 3)
         {
             TrackScript tr = Instantiate(Resources.Load("Prefabs/TrackRenderer") as GameObject).GetComponent<TrackScript>();
             Vector3[] newPoints = new Vector3[] { groundVertices[i], groundVertices[i + 1], groundVertices[i + 2] };
-
             Vector3 averagePoint = (newPoints[0] + newPoints[1] + newPoints[2]) / 3;
             Vector3 centerPoint = ground.transform.TransformPoint(ground.GetComponent<MeshFilter>().mesh.bounds.center);
-            GameObject prim = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            prim.transform.localScale = new Vector3(10,10,10);
-            prim.transform.position = centerPoint;
             Vector3 directionToMoveAway = Vector3.Normalize(averagePoint-centerPoint) * 10f;
             newPoints[0] += directionToMoveAway;
-            newPoints[1] += directionToMoveAway;
+            newPoints[1] += directionToMoveAway*1.5f;
             newPoints[2] += directionToMoveAway;
 
             for (int v = 0; v < 3; v++)
