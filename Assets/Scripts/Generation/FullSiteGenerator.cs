@@ -56,8 +56,6 @@ public class FullSiteGenerator : MonoBehaviour
         removeClosestBorder();
         generateBorderPrefabs();
         spawned.transform.localScale *= 1.25f;
-        generateTrainTracks();
-        generateStartArea();
         nav = gameObject.GetComponent<SiteNavScript>();
         //Debug.Log((nav != null).ToString()+(generators != null).ToString()+(allBorders != null).ToString());
         nav.drawDebugLocations = drawDebugSpheres;
@@ -69,6 +67,7 @@ public class FullSiteGenerator : MonoBehaviour
         {
             generators[i].generateTracks();
         }
+        generateEdgeItems();
     }
     void makeConfig()
     {
@@ -276,12 +275,22 @@ public class FullSiteGenerator : MonoBehaviour
             }
         }
     }
-    void generateTrainTracks()
+    void generateOutsideBuilding(Vector3 p1, Vector3 p2)
     {
         Mesh meshTemp = mf.mesh;
-        int index = UnityEngine.Random.Range(0, meshTemp.vertices.Length);
-        Vector3 p1 = meshTemp.vertices[index];
-        Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
+        p1 = mf.transform.TransformPoint(p1);
+        p2 = mf.transform.TransformPoint(p2);
+
+        Vector3 pc = Vector3.Lerp(p1, p2, 0.5f);
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.right, p1 - p2);
+        Vector3 dir = Vector3.Cross(p2 - p1, Vector3.up).normalized;
+        Vector3 rotvec = Quaternion.AngleAxis(90, Vector3.up) * ((p2 - p1).normalized);
+
+        GameObject item = Instantiate(Resources.Load("Prefabs/outsideBuilding") as GameObject, pc + (rotvec * 15) - (Vector3.up * 2.5f), rotation);
+    }
+    void generateTrainTracks(Vector3 p1, Vector3 p2)
+    {
+        Mesh meshTemp = mf.mesh;
         p1 = mf.transform.TransformPoint(p1);
         p2 = mf.transform.TransformPoint(p2);
 
@@ -294,12 +303,9 @@ public class FullSiteGenerator : MonoBehaviour
         item.transform.localScale *= 5f;
         item.GetComponentInChildren<AudioSource>().maxDistance *= 5f;
     }
-    void generateStartArea()
+    void generateStartArea(Vector3 p1, Vector3 p2)
     {
         Mesh meshTemp = mf.mesh;
-        int index = UnityEngine.Random.Range(0, meshTemp.vertices.Length);
-        Vector3 p1 = meshTemp.vertices[index];
-        Vector3 p2 = meshTemp.vertices[(index + 1) % meshTemp.vertices.Length];
         p1 = mf.transform.TransformPoint(p1);
         p2 = mf.transform.TransformPoint(p2);
 
@@ -331,5 +337,33 @@ public class FullSiteGenerator : MonoBehaviour
     void addRandomAI(Vector3 position, Quaternion rotation)
     {
         GameObject AI = Instantiate(Resources.Load("Prefabs/AI_Walker_Actor") as GameObject, position, rotation);
+    }
+    void generateEdgeItems()
+    {
+        Mesh meshTemp = mf.mesh;
+        bool tracks = false;
+        bool spawn = false;
+
+        for (int i = 0; i < meshTemp.vertices.Length-3; i++)
+        {
+            Vector3 vert1 = meshTemp.vertices[i];
+            Vector3 vert2 = meshTemp.vertices[i + 1];
+            if (!tracks)
+            {
+                generateTrainTracks(vert1, vert2);
+                tracks = true;   
+                generateOutsideBuilding(meshTemp.vertices[i+2], meshTemp.vertices[i+3]);
+                i += 2;
+            }
+            else if (!spawn)
+            {
+                generateStartArea(vert1, vert2);
+                spawn = true;
+            }
+            else
+            {
+                generateOutsideBuilding(vert1, vert2);
+            }
+        }
     }
 }

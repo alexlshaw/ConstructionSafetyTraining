@@ -220,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 1250193328412227166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 0.5, z: 20}
+  m_LocalScale: {x: 20, y: 1, z: 20}
   m_Children: []
   m_Father: {fileID: 3677350746742564165}
   m_RootOrder: 0
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 10
   ySize: 10
-  generateBorder: 1
+  generateBorder: 0
   randomlyRotate: 0
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
 --- !u!95 &8407829021484993346

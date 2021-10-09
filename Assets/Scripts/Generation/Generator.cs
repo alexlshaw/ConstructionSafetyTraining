@@ -188,6 +188,7 @@ public class Generator : MonoBehaviour
 
     public void generateTracks()
     {
+        List<int> startArray = new List<int>();
         Vector3[] groundVertices = ground.GetComponent<MeshFilter>().mesh.vertices;
         for (int i = 0; i < groundVertices.Length; i++)
         {
@@ -195,24 +196,35 @@ public class Generator : MonoBehaviour
         }
         for (int i = 0; i < groundVertices.Length - 2; i += 3)
         {
-            TrackScript tr = Instantiate(Resources.Load("Prefabs/TrackRenderer") as GameObject).GetComponent<TrackScript>();
-            Vector3[] newPoints = new Vector3[] { groundVertices[i], groundVertices[i + 1], groundVertices[i + 2] };
-            Vector3 averagePoint = (newPoints[0] + newPoints[1] + newPoints[2]) / 3;
-            Vector3 centerPoint = ground.transform.TransformPoint(ground.GetComponent<MeshFilter>().mesh.bounds.center);
-            Vector3 directionToMoveAway = Vector3.Normalize(averagePoint-centerPoint) * 10f;
-            newPoints[0] += directionToMoveAway;
-            newPoints[1] += directionToMoveAway*1.5f;
-            newPoints[2] += directionToMoveAway;
-
-            for (int v = 0; v < 3; v++)
-            {
-                newPoints[v] += new Vector3(0, 0.01f, 0);
-            }
-            tr.points = newPoints;
-            tr.vertexAmount = 12;
-            tr.create();
-
-            tr.transform.parent = transform;
+            startArray.Add(i);
+            Vector3[] loop_newPoints = new Vector3[] { groundVertices[i], groundVertices[i + 1], groundVertices[i + 2] };
+            Vector3 loop_averagePoint = (loop_newPoints[0] + loop_newPoints[1] + loop_newPoints[2]) / 3;
+            Vector3 loop_centerPoint = ground.transform.TransformPoint(ground.GetComponent<MeshFilter>().mesh.bounds.center);
+            Vector3 loop_directionToMoveAway = Vector3.Normalize(loop_averagePoint - loop_centerPoint) * 10f;
+            loop_newPoints[0] += loop_directionToMoveAway + new Vector3(0, 0.01f, 0);
+            loop_newPoints[1] += loop_directionToMoveAway * 1.5f + new Vector3(0, 0.01f, 0);
+            loop_newPoints[2] += loop_directionToMoveAway + new Vector3(0, 0.01f, 0);
+            TrackScript loop_tr = Instantiate(Resources.Load("Prefabs/TrackRenderer") as GameObject).GetComponent<TrackScript>();
+            loop_tr.points = loop_newPoints;
+            loop_tr.vertexAmount = 12;
+            loop_tr.create();
+            loop_tr.transform.parent = transform;
         }
+
+        int index = (UnityEngine.Random.Range(0, groundVertices.Length) % groundVertices.Length);
+        if (startArray.Contains(index)){ index = (index + 1) % groundVertices.Length; }
+        Vector3[] newPoints = new Vector3[] { groundVertices[index], groundVertices[index + 1], groundVertices[index + 2] };
+        Vector3 averagePoint = (newPoints[0] + newPoints[1] + newPoints[2]) / 3;
+        Vector3 centerPoint = ground.transform.TransformPoint(ground.GetComponent<MeshFilter>().mesh.bounds.center);
+        Vector3 directionToMoveAway = Vector3.Normalize(averagePoint - centerPoint) * 10f;
+        newPoints[0] += directionToMoveAway + new Vector3(0, 0.01f, 0);
+        newPoints[1] += directionToMoveAway * 1.5f + new Vector3(0, 0.01f, 0);
+        newPoints[2] += directionToMoveAway + new Vector3(0, 0.01f, 0);
+        TrackScript tr = Instantiate(Resources.Load("Prefabs/TrackRenderer") as GameObject).GetComponent<TrackScript>();
+        tr.points = newPoints;
+        tr.vertexAmount = 12;
+        tr.create();
+        tr.transform.parent = transform;
+
     }
 }
