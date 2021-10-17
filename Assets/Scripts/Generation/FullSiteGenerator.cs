@@ -15,7 +15,9 @@ public class FullSiteGenerator : MonoBehaviour
     private List<GameObject> borderInstances = new List<GameObject>();
     private List<Vector3> vertices;
     private GameObject spawned = null;
+    private GameObject ground;
     private MeshFilter mf;
+
     
     [Header("Generation Seed Value")]
     public int seed;                    //cfg
@@ -29,6 +31,7 @@ public class FullSiteGenerator : MonoBehaviour
     public int maxYSites;               //cfg
     public int numBordersRemoved;       //cfg
     public GameObject wholeSiteBorder;
+    public int groundDepth = 5;
 
     private Configuration cfg;
     private string filepath;
@@ -38,7 +41,7 @@ public class FullSiteGenerator : MonoBehaviour
     private GameObject startArea;
 
     // Start is called before the first frame update
-    void Start()
+    private IEnumerator Start()
     {
         UnityEngine.Random.InitState(seed);
         filepath = Application.streamingAssetsPath + "/config.cfg";
@@ -68,6 +71,16 @@ public class FullSiteGenerator : MonoBehaviour
             generators[i].generateTracks();
         }
         generateEdgeItems();
+        yield return new WaitForFixedUpdate();
+
+        InitObjectRegionDict(ground);
+        foreach(String key in Globals.labelToVectorDict.Keys)
+        {
+            Debug.Log(key);
+        }
+
+        createVoxelGround();
+
     }
     void makeConfig()
     {
@@ -169,7 +182,7 @@ public class FullSiteGenerator : MonoBehaviour
     }
     void generateGroundPolygon()
     {
-        GameObject ground = new GameObject("groundMesh");
+        ground = new GameObject("groundMesh");
         ground.layer = 1;
         mf = ground.AddComponent<MeshFilter>();
         Mesh msh = mf.mesh;
@@ -288,6 +301,8 @@ public class FullSiteGenerator : MonoBehaviour
 
         GameObject item = Instantiate(Resources.Load("Prefabs/outsideBuilding") as GameObject, pc + (rotvec * 15) - (Vector3.up * 2.5f), rotation);
     }
+
+
     void generateTrainTracks(Vector3 p1, Vector3 p2)
     {
         Mesh meshTemp = mf.mesh;
@@ -366,4 +381,76 @@ public class FullSiteGenerator : MonoBehaviour
             }
         }
     }
+    private void InitObjectRegionDict(GameObject gameObject)
+    {
+        MeshRenderer meshRenderer = gameObject.transform.GetComponent<MeshRenderer>();
+        for (int x = (int)meshRenderer.bounds.min.x; x < meshRenderer.bounds.max.x; x++)
+        {
+            for (int z = (int)meshRenderer.bounds.min.z; z < meshRenderer.bounds.max.z; z++)
+            {
+                Vector3Int x0z = new Vector3Int(x, (int)(meshRenderer.bounds.max.y + 1f), z);
+                RaycastHit[] hits = Physics.RaycastAll(x0z, Vector3.down, 10f);
+                bool addToDict = false;
+                foreach (RaycastHit hit in hits)
+                {
+                    if (hit.transform.name.Equals(gameObject.transform.name))
+                    {
+                        addToDict = true;
+                        break;
+                    }
+
+                }
+                if (addToDict)
+                {
+                    Globals.addTagToPosition(new Vector2Int(x, z), gameObject.name);
+                }
+                
+            }
+        }
+    }
+
+    private void createVoxelGround()
+    {
+        MeshRenderer meshRenderer = ground.transform.GetComponent<MeshRenderer>();
+        bool[,,] voxelGrid = new bool[(int)meshRenderer.bounds.size.x + 1, groundDepth + 1, (int)meshRenderer.bounds.size.z + 1];
+        //GameObject building = GameObject.Find("BuildingParent");
+        //Vector3 buildingRelativePosition = building.transform.position - meshRenderer.bounds.min;
+        //building.transform.position = new Vector3((int)buildingRelativePosition.x, (int)buildingRelativePosition.y, (int)buildingRelativePosition.z) + meshRenderer.bounds.min;
+        //Mesh buildingMesh = building.GetComponent<MeshFilter>().mesh;
+        foreach (Vector2Int vector in Globals.labelToVectorDict["groundMesh"])
+        {
+            for (int i = 0; i < groundDepth; i++)
+            {
+                Vector3 relativePosition = new Vector3(vector.x, 0, vector.y) - new Vector3(meshRenderer.bounds.min.x, 0f, meshRenderer.bounds.min.z);
+                voxelGrid[(int)relativePosition.x, i, (int)relativePosition.z] = true;
+            }
+        }
+        //RemoveGroundUnderBuilding(voxelGrid, buildingMesh, meshRenderer);
+        VoxelData groundData = new VoxelData();
+        groundData.Data = voxelGrid;
+
+        GameObject voxelGround = new GameObject("voxelGround");
+
+        voxelGround.AddComponent<VoxelRenderer>();
+        voxelGround.GetComponent<VoxelRenderer>().GenerateVoxelMesh(groundData, meshRenderer.bounds);
+        voxelGround.GetComponent<VoxelRenderer>().UpdateMesh();
+        voxelGround.GetComponent<MeshRenderer>().material = groundMaterial;
+        voxelGround.AddComponent<MeshCollider>().sharedMesh = voxelGround.GetComponent<MeshFilter>().mesh;
+        voxelGround.transform.position = new Vector3(voxelGround.transform.position.x, -groundDepth + ground.transform.position.y, voxelGround.transform.position.z);
+    }
+    private void RemoveGroundUnderBuilding(bool[,,] voxelGrid, Mesh buildingMesh, MeshRenderer meshRenderer)
+    {
+
+        for (int x = (int)buildingMesh.bounds.min.x; x < (int)buildingMesh.bounds.max.x + 1; x++)
+        {
+            for (int z = (int)buildingMesh.bounds.min.z; z < (int)buildingMesh.bounds.max.z + 1; z++)
+            {
+                Vector3 relativePosition = new Vector3(x, 0, z) - new Vector3((int)meshRenderer.bounds.min.x, 0f, (int)meshRenderer.bounds.min.z);
+
+                voxelGrid[(int)relativePosition.x, 0, (int)relativePosition.z] = false;
+            }
+        }
+    }
 }
+
+
