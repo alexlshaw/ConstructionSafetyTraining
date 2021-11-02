@@ -10,14 +10,20 @@ This tool focuses on situational awareness around vehicles as well as safely and
 
 ## Usage
 
-The construction sites in this application are procedural and can be controlled by editing the file "config.cfg". Multiple variables are available to change. This includes the seed value that affects the consistency of site generation, the total number of sections within the site, their size and the target number of items to spawn within said site - this number is not the number of prefabs guarenteed to spawn as the sites are procedurally generated and will not spawn an item if a previously spawned item overlaps.
+The construction sites in this application are procedural and can be controlled by editing the file "config.cfg". Multiple variables are available to change. This includes the seed value that affects the consistency of site generation, the total number of sections within the site, their size and the target number of items to spawn within said site - this number is not the number of prefabs guaranteed to spawn as the sites are procedurally generated and will not spawn an item if a previously spawned item overlaps.
 
 The currently available items available to spawn are the following:
-* prefab1 (a concrete cube and placeholder item)
-* Crane
-* CraneVehicle
-* Excavator
+* prefab1 (a cube/placeholder item)
+* BigWheel (an earth-mover truck)
+* Building (a simple building shell)
+* CraneVehicle (a truck-crane vehicle)
+* Crane (a stationary crane with a concrete base)
+* Crate (a shipping container)
+* dirt (a pile of dirt)
+* Excavator (it's in the name...)
+* Mixer (a small cement mixer)
+* Pallet (a pile of wooden pallets)
 
-These can be added or removed by editing the "Prefabs" section of the config file. The chance of each item spawning is available in the "PrefabsChance" section and correspond to the same *ordered* prefab item - sequenced numbers are in place for seperation and have no effect on the corresponding prefab's sequenced number.
+These can be added or removed by editing the prefabs section of the config file. The chance of each item spawning is the second option, e.g. "prefab={Pallet, 1}" is a pallet object with a 100% chance to spawn, while "prefab={CraneVehicle, 0.15}" is a crane vehicle with a 15% chance to spawn.
 
 More documentation is available in the config file itself, though it's fairly self-explanatory.
