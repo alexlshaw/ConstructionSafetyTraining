@@ -7,6 +7,26 @@ This is a construction training tool developed to educate construction workers w
 
 This tool focuses on situational awareness around vehicles as well as safely and correctly navigating contruction sites. 
 
+### Current Functionality
+Current functionality includes the following:
+* Customisable site generation
+* Customisable individual section generation
+* External configuration file
+* Simple VR implementation
+* Animated crane with moving load
+* Animated vehicles with risk zones
+* Vehicle tracks
+* AI roaming
+* Basic waypoint objectives
+* Basic models outside of site
+* Ambient background noises and effects
+
+### Future Functionality
+Future functionality includes the following:
+* Full-body VR tracking with individual finger tracking
+* "Spotters" by vehicles
+* Physics based interaction with AI
+* Detailed models outside of site
 
 ## Usage
 
