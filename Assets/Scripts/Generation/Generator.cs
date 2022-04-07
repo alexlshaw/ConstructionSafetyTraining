@@ -21,21 +21,27 @@ public class Generator : MonoBehaviour
     public GameObject box;
     public Quaternion borderRotationOffset = Quaternion.Euler(0, 90, 0);
     private GameObject currentPrefab;
-    private GameObject ground;
+    public GameObject ground;
     public Material groundMaterial;
     private List<Vector3> vertices = new List<Vector3>();
     private List<Vector3> prefabLocations = new List<Vector3>();
     public List<List<bool>> bool_array = new List<List<bool>>();
     public List<GameObject> borderInstances = new List<GameObject>();
-
+    private GameObject parent;
+    private Mesh msh;
     public void startGeneration(int seed)
     {
         UnityEngine.Random.InitState(seed);
+        parent = new GameObject("parent");
         generateFilledBoolArray();
         generatePrefabs();
         generateBoundingGeometry();
+
         generateGroundPolygon();
         generateBorderPrefabs();
+
+        parent.transform.parent = gameObject.transform;
+        parent.transform.localPosition = -msh.bounds.min;
     }
 
     void generateFilledBoolArray()
@@ -60,11 +66,15 @@ public class Generator : MonoBehaviour
                 if (val < input_item.chance)
                 {
                     GameObject item = input_item.item;
-                    int h = UnityEngine.Random.Range(0, ySize - 1);
-                    int w = UnityEngine.Random.Range(0, xSize - 1);
                     currentPrefab = item;
                     int prefabX = currentPrefab.GetComponent<GeneratedItem>().xSize + 1;
                     int prefabY = currentPrefab.GetComponent<GeneratedItem>().ySize + 1;
+
+                    int h = UnityEngine.Random.Range(prefabX/2, ySize-1);
+                    int w = UnityEngine.Random.Range(prefabY/2, xSize-1);
+                    //Debug.Log("name: " + item.name);
+                    //Debug.Log("wh: " + w+ ","+ h);
+
                     bool areaIsInUse = false;
                     for (int y = -prefabY; y < prefabY; y++)
                     {
@@ -94,13 +104,14 @@ public class Generator : MonoBehaviour
                         Quaternion rotation = (currentPrefab.GetComponent<GeneratedItem>().randomlyRotate) ? Quaternion.Euler(0f, UnityEngine.Random.Range(0, 360 - 1), 0f) : Quaternion.identity;
                         float new_w = w + gameObject.transform.position.x;
                         float new_h = h + gameObject.transform.position.z;
+                        //Debug.Log("new: " + new_w + "," + new_h);
 
                         if (currentPrefab.tag == "Crane")
                         {
                             if (craneCheck())
                             {
                                 GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
-                                prefab.transform.parent = gameObject.transform;
+                                prefab.transform.parent = parent.transform;
                                 prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
                                 prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
                                 prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
@@ -110,7 +121,7 @@ public class Generator : MonoBehaviour
                         else
                         {
                             GameObject prefab = Instantiate(currentPrefab, new Vector3(new_w, 0.5f, new_h), rotation);
-                            prefab.transform.parent = gameObject.transform;
+                            prefab.transform.parent = parent.transform;
                             prefabLocations.Add(new Vector3(new_w - prefabX, 0, new_h + prefabY));
                             prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h - prefabY));
                             prefabLocations.Add(new Vector3(new_w + prefabX, 0, new_h + prefabY));
@@ -135,8 +146,8 @@ public class Generator : MonoBehaviour
     void generateGroundPolygon()
     {
         ground = new GameObject("groundMesh");
-        ground.transform.parent = gameObject.transform;
-        Mesh msh = ground.AddComponent<MeshFilter>().mesh;
+        ground.transform.parent = parent.transform;
+        msh = ground.AddComponent<MeshFilter>().mesh;
         List<Vector2> vertices2d = new List<Vector2>();
         foreach (Vector3 item in vertices) { vertices2d.Add(new Vector2(item.x, item.z)); }
         TriangleScript tr = new TriangleScript(vertices2d.ToArray());
@@ -148,6 +159,9 @@ public class Generator : MonoBehaviour
         meshCollider.sharedMesh = msh;
         MeshRenderer renderer = ground.AddComponent<MeshRenderer>();
         renderer.material = groundMaterial;
+        xSize = Math.Max(xSize, Mathf.RoundToInt(msh.bounds.size.x));
+        ySize = Math.Max(ySize, Mathf.RoundToInt(msh.bounds.size.z));
+        ground.SetActive(false);
     }
     void generateBorderPrefabs()
     {
@@ -178,7 +192,7 @@ public class Generator : MonoBehaviour
                     {
                         GameObject border = Instantiate(borderPrefabs[index], position, Quaternion.identity);
                         border.transform.LookAt(p2);
-                        border.transform.parent = gameObject.transform;
+                        border.transform.parent = parent.transform;
                         borderInstances.Add(border);
                     }
                 }

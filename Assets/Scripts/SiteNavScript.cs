@@ -58,13 +58,17 @@ public class SiteNavScript : MonoBehaviour
     }
     void Update()
     {
-        float dist = Vector3.Distance(Camera.main.transform.position, targetLocation);
-        if (dist < 4)
+        if (Camera.main != null)
         {
-            Destroy(targetIndicator);
-            nukeSpheres();
-            pickLocation();
+            float dist = Vector3.Distance(Camera.main.transform.position, targetLocation);
+            if (dist < 4)
+            {
+                Destroy(targetIndicator);
+                nukeSpheres();
+                pickLocation();
+            }
         }
+
     }
     void nukeSpheres()
     {

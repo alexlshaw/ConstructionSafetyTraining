@@ -9,8 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GeneratorScene.unity
     guid: 475f0e57b36f661488229955369f05da
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 0}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 606fd05e8c682e94faf073deb2b8133d, type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: d0448b87883e0ba428d79978031794a0, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 4e0ad323bd80443478df3ad0273ce2bc, type: 2}
+    com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 9ba2332fd369ca44aa462683189fcccd, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4eec9888c75ab3f46835a38e6e390d67, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: fd5dcdab4fcc6144d9c4564ecc409c99, type: 2}

@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7558952223723482818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7558952223723482820}
+  - component: {fileID: 7558952223723482821}
+  - component: {fileID: 7558952223723482823}
+  - component: {fileID: 7552083299519557414}
+  m_Layer: 0
+  m_Name: BuildingCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7558952223723482820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558952223723482818}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7558952223723482821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558952223723482818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d09b658ed4a0a4eb1ded82087f23a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingWidth: 4
+  buildingLength: 3
+  roomWidthMin: 1
+  roomLengthMin: 1
+  maxIterations: 2
+  doorWidth: 1
+  scale: 3
+  totalFloors: 3
+  wallVertical: {fileID: 8382509066358859237, guid: 972f013ace2549a489c689cbfe1cf182, type: 3}
+  wallHorizontal: {fileID: 8180417119816378160, guid: ec5c415106cf8a54a9af92f06b1645b0, type: 3}
+  doorVertical: {fileID: 8907531020833689828, guid: 7d44798d16f291246990afa462f11380, type: 3}
+  doorHorizontal: {fileID: 7998637781102736876, guid: 916be050b44bfa54596a1b1ff070a6db, type: 3}
+  floorTile: {fileID: 4968794718457228258, guid: 37642c208ad2253439872b5725c727d6, type: 3}
+  buildingSteps: {fileID: 8341501003809531508, guid: 976975cc2a25fa84c949213381f7d62f, type: 3}
+  peakedRoof: {fileID: 3308346464929414394, guid: 611691cf1bbb01d47ab2dbbd27fef2f6, type: 3}
+--- !u!114 &7558952223723482823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558952223723482818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae45915c5b1cc28489eaefe3272b6341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dungeonWidth: 4
+  dungeonLength: 3
+  scaffoldCorner: {fileID: 5165962201042684827, guid: bc82498818a8ade4a938b1c1399db9b7, type: 3}
+  scaffoldDefault: {fileID: 6042890780487175873, guid: 5fefa8e2b82022d4e8ba62d1e3401e90, type: 3}
+  scaffoldStairs: {fileID: 5891163902668053137, guid: 6d033be43f6c937488ffcbfd76511b3d, type: 3}
+  cornerNoBarriers: {fileID: 8827016052487720268, guid: e160a5efd38d42e4794c6e1d14bce40d, type: 3}
+  defaultNoFloor: {fileID: 6042890780487175873, guid: b55416fb54e53cc4785622242a4db4c4, type: 3}
+  scale: 3
+  totalFloors: 3
+  stairsProbability: 0.2
+--- !u!114 &7552083299519557414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558952223723482818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3cf8dff1eb95714fa773feb21503baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 24
+  ySize: 21
+  generateBorder: 0
+  randomlyRotate: 0
+  material: {fileID: 0}

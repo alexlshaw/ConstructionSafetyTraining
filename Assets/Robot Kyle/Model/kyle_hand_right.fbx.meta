@@ -1,0 +1,389 @@
+fileFormatVersion: 2
+guid: 18e6c16f906c83e47b7ee3ce5a2d4cba
+ModelImporter:
+  serializedVersion: 21100
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Armature
+  - first:
+      1: 100002
+    second: Camera
+  - first:
+      1: 100004
+    second: //RootNode
+  - first:
+      1: 100006
+    second: Lamp
+  - first:
+      1: 100008
+    second: Right_Index_Finger_Joint_01a
+  - first:
+      1: 100010
+    second: Right_Index_Finger_Joint_01b
+  - first:
+      1: 100012
+    second: Right_Index_Finger_Joint_01c
+  - first:
+      1: 100014
+    second: Right_Index_Finger_Joint_01c_end
+  - first:
+      1: 100016
+    second: Right_Middle_Finger_Joint_01a
+  - first:
+      1: 100018
+    second: Right_Middle_Finger_Joint_01b
+  - first:
+      1: 100020
+    second: Right_Middle_Finger_Joint_01c
+  - first:
+      1: 100022
+    second: Right_Middle_Finger_Joint_01c_end
+  - first:
+      1: 100024
+    second: Right_Pinky_Finger_Joint_01a
+  - first:
+      1: 100026
+    second: Right_Pinky_Finger_Joint_01b
+  - first:
+      1: 100028
+    second: Right_Pinky_Finger_Joint_01c
+  - first:
+      1: 100030
+    second: Right_Pinky_Finger_Joint_01c_end
+  - first:
+      1: 100032
+    second: Right_Ring_Finger_Joint_01a
+  - first:
+      1: 100034
+    second: Right_Ring_Finger_Joint_01b
+  - first:
+      1: 100036
+    second: Right_Ring_Finger_Joint_01c
+  - first:
+      1: 100038
+    second: Right_Ring_Finger_Joint_01c_end
+  - first:
+      1: 100040
+    second: Right_Thumb_Joint_01a
+  - first:
+      1: 100042
+    second: Right_Thumb_Joint_01b
+  - first:
+      1: 100044
+    second: Right_Thumb_Joint_01b_end
+  - first:
+      1: 100046
+    second: Right_Wrist_Joint_01
+  - first:
+      1: 100048
+    second: Robot2
+  - first:
+      4: 400000
+    second: Armature
+  - first:
+      4: 400002
+    second: Camera
+  - first:
+      4: 400004
+    second: //RootNode
+  - first:
+      4: 400006
+    second: Lamp
+  - first:
+      4: 400008
+    second: Right_Index_Finger_Joint_01a
+  - first:
+      4: 400010
+    second: Right_Index_Finger_Joint_01b
+  - first:
+      4: 400012
+    second: Right_Index_Finger_Joint_01c
+  - first:
+      4: 400014
+    second: Right_Index_Finger_Joint_01c_end
+  - first:
+      4: 400016
+    second: Right_Middle_Finger_Joint_01a
+  - first:
+      4: 400018
+    second: Right_Middle_Finger_Joint_01b
+  - first:
+      4: 400020
+    second: Right_Middle_Finger_Joint_01c
+  - first:
+      4: 400022
+    second: Right_Middle_Finger_Joint_01c_end
+  - first:
+      4: 400024
+    second: Right_Pinky_Finger_Joint_01a
+  - first:
+      4: 400026
+    second: Right_Pinky_Finger_Joint_01b
+  - first:
+      4: 400028
+    second: Right_Pinky_Finger_Joint_01c
+  - first:
+      4: 400030
+    second: Right_Pinky_Finger_Joint_01c_end
+  - first:
+      4: 400032
+    second: Right_Ring_Finger_Joint_01a
+  - first:
+      4: 400034
+    second: Right_Ring_Finger_Joint_01b
+  - first:
+      4: 400036
+    second: Right_Ring_Finger_Joint_01c
+  - first:
+      4: 400038
+    second: Right_Ring_Finger_Joint_01c_end
+  - first:
+      4: 400040
+    second: Right_Thumb_Joint_01a
+  - first:
+      4: 400042
+    second: Right_Thumb_Joint_01b
+  - first:
+      4: 400044
+    second: Right_Thumb_Joint_01b_end
+  - first:
+      4: 400046
+    second: Right_Wrist_Joint_01
+  - first:
+      4: 400048
+    second: Robot2
+  - first:
+      20: 2000000
+    second: Camera
+  - first:
+      21: 2100000
+    second: Robot
+  - first:
+      43: 4300000
+    second: Robot2
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      108: 10800000
+    second: Lamp
+  - first:
+      137: 13700000
+    second: Robot2
+  - first:
+      41386430: 2186277476908879412
+    second: ImportLogs
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Hips' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: kyle_hand_right(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: kyle_hand_right(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Right_Wrist_Joint_01
+      parentName: Armature
+      position: {x: -0.0036703777, y: -0.005876655, z: -0.050437}
+      rotation: {x: 0.9999718, y: -0.00006407889, z: -0.0015424333, w: 0.0073474683}
+      scale: {x: 1.0000001, y: 1, z: 1.0015595}
+    - name: Right_Index_Finger_Joint_01a
+      parentName: Right_Wrist_Joint_01
+      position: {x: -0.026766226, y: -0.013849031, z: -0.06929378}
+      rotation: {x: 0.0018338115, y: 0.020061532, z: -0.010484942, w: 0.9997421}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000001}
+    - name: Right_Index_Finger_Joint_01b
+      parentName: Right_Index_Finger_Joint_01a
+      position: {x: 0.00091089634, y: -0.0000014593452, z: -0.040460907}
+      rotation: {x: 0.011192524, y: 0.0014564734, z: -0.00044875417, w: 0.9999362}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Right_Index_Finger_Joint_01c
+      parentName: Right_Index_Finger_Joint_01b
+      position: {x: 0.0005602455, y: 0.0000011511892, z: -0.022902174}
+      rotation: {x: -0.022982478, y: -0.012188084, z: 0.010729764, w: 0.999604}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.99999994}
+    - name: Right_Index_Finger_Joint_01c_end
+      parentName: Right_Index_Finger_Joint_01c
+      position: {x: -0, y: 0.022944724, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Right_Middle_Finger_Joint_01a
+      parentName: Right_Wrist_Joint_01
+      position: {x: -0.0063494644, y: -0.013890412, z: -0.07133624}
+      rotation: {x: 0.000901751, y: 0.020062052, z: -0.01048728, w: 0.99974334}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: Right_Middle_Finger_Joint_01b
+      parentName: Right_Middle_Finger_Joint_01a
+      position: {x: 0.000989122, y: -0.00000028558074, z: -0.043973282}
+      rotation: {x: 0.010300235, y: 0.001314635, z: -0.00040922602, w: 0.999946}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Right_Middle_Finger_Joint_01c
+      parentName: Right_Middle_Finger_Joint_01b
+      position: {x: 0.0006033459, y: 0.00000086212526, z: -0.02488668}
+      rotation: {x: -0.021157714, y: -0.012052675, z: 0.010694483, w: 0.9996463}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Right_Middle_Finger_Joint_01c_end
+      parentName: Right_Middle_Finger_Joint_01c
+      position: {x: -0, y: 0.02493278, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Right_Pinky_Finger_Joint_01a
+      parentName: Right_Wrist_Joint_01
+      position: {x: 0.03192973, y: -0.013909484, z: -0.07233403}
+      rotation: {x: 0.005664914, y: 0.020057976, z: -0.01047541, w: 0.9997279}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: Right_Pinky_Finger_Joint_01b
+      parentName: Right_Pinky_Finger_Joint_01a
+      position: {x: 0.00068805914, y: 0.00000018320978, z: -0.030460715}
+      rotation: {x: 0.014857975, y: 0.0021216965, z: -0.0006165037, w: 0.99988717}
+      scale: {x: 0.99999994, y: 1, z: 0.9999999}
+    - name: Right_Pinky_Finger_Joint_01c
+      parentName: Right_Pinky_Finger_Joint_01b
+      position: {x: 0.000440737, y: 0.0000015873461, z: -0.017250588}
+      rotation: {x: -0.030480428, y: -0.012814993, z: 0.010875318, w: 0.99939406}
+      scale: {x: 1, y: 1, z: 0.9999998}
+    - name: Right_Pinky_Finger_Joint_01c_end
+      parentName: Right_Pinky_Finger_Joint_01c
+      position: {x: -0, y: 0.0172831, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Right_Ring_Finger_Joint_01a
+      parentName: Right_Wrist_Joint_01
+      position: {x: 0.0135559365, y: -0.013905871, z: -0.07214021}
+      rotation: {x: 0.002503876, y: 0.020061089, z: -0.010483363, w: 0.99974066}
+      scale: {x: 1.0000001, y: 1, z: 1.0000001}
+    - name: Right_Ring_Finger_Joint_01b
+      parentName: Right_Ring_Finger_Joint_01a
+      position: {x: 0.0008619699, y: -0.0000005748309, z: -0.038265083}
+      rotation: {x: 0.011835155, y: 0.0015634858, z: -0.00047729214, w: 0.99992865}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: Right_Ring_Finger_Joint_01c
+      parentName: Right_Ring_Finger_Joint_01b
+      position: {x: 0.0005335528, y: 0.0000016231648, z: -0.021660011}
+      rotation: {x: -0.024294972, y: -0.0122871455, z: 0.010754992, w: 0.9995715}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999999}
+    - name: Right_Ring_Finger_Joint_01c_end
+      parentName: Right_Ring_Finger_Joint_01c
+      position: {x: -0, y: 0.02170036, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Right_Thumb_Joint_01a
+      parentName: Right_Wrist_Joint_01
+      position: {x: -0.047826543, y: 0.0039549298, z: -0.046048727}
+      rotation: {x: 0.14132404, y: 0.749338, z: -0.41014376, w: 0.50030226}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000002}
+    - name: Right_Thumb_Joint_01b
+      parentName: Right_Thumb_Joint_01a
+      position: {x: 0.026772108, y: 0.0016154485, z: -0.010761679}
+      rotation: {x: 0.12161516, y: 0.3472473, z: 0.31870258, w: 0.87353176}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Right_Thumb_Joint_01b_end
+      parentName: Right_Thumb_Joint_01b
+      position: {x: -0, y: 0.028925642, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Robot2
+      parentName: kyle_hand_right(Clone)
+      position: {x: 0.000000052303076, y: -0.000000008568168, z: 0.000000003241001}
+      rotation: {x: 0.00000008146034, y: -9.15934e-16, z: 2.3665829e-30, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
