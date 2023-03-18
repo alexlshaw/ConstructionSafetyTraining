@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,33 +14,83 @@ public class RoomsCreator : MonoBehaviour
 
     public GameObject wallVertical, wallHorizontal;
     public GameObject doorVertical, doorHorizontal;
+    public GameObject windowVertical, windowHorizontal;
+
     public GameObject floorTile;
     public GameObject buildingSteps;
     public GameObject peakedRoof;
+    [Range(0, 1)]
+    public float windowProbability;
 
     List<Vector3> possibleDoorVerticalPosition;
     List<Vector3> possibleDoorHorizontalPosition;
     List<Vector3> possibleWallHorizontalPosition;
     List<Vector3> possibleWallVerticalPosition;
 
-    List<Vector3> totalWallPositions;
+    List<GameObject> floorsList;
 
+    private GameObject building;
     Vector2 doorToOutsideLocation;
     // Start is called before the first frame update
     void Start()
     {
+        buildingWidth = Globals.buildingWidth;
+        buildingLength = Globals.buildingLength;
+        maxIterations = Globals.maxIterations;
+        totalFloors = Globals.buildingFloors;
+        floorsList = new List<GameObject>();
         CreateDungeon();
+
+        GameEvents.current.onStartGame += DeactivateBuilding;
+        GameEvents.current.onFoundationFilled += ActivateBuilding;
+        GameEvents.current.onFoundationFilled += firstLevel;
+
+        GameEvents.current.onResetLevel += reset;
+        GameEvents.current.onStartSecondLevel += ActivateBuilding;
+
+    }
+    void reset()
+    {
+
+    }
+    public void ActivateBuilding()
+    {
+        building.SetActive(true);
+        for (int i = 1; i < floorsList.Count; i++)
+        {
+            floorsList[i].SetActive(true);
+        }
+    }
+    public void DeactivateBuilding()
+    {
+        building.SetActive(false);
     }
 
+    public void firstLevel()
+    {
+        floorsList[0].SetActive(true);
+        for (int i = 1; i < floorsList.Count; i++)
+        {
+            floorsList[i].SetActive(false);
+        }
+    }
+
+    public void secondLevel()
+    {
+        for (int i = 0; i < floorsList.Count; i++)
+        {
+            floorsList[i].SetActive(true);
+        }
+    }
     public void CreateDungeon()
     {
         DestroyAllChildren();
 
         doorToOutsideLocation = CalculateDoorToOutsideLocation();
 
-        GameObject building = new GameObject("Building");
+        building = new GameObject("Building");
 
-        for (int floor = 0; floor< totalFloors; floor++)
+        for (int floor = 0; floor < totalFloors; floor++)
         {
             RoomsGenerator generator = new RoomsGenerator(buildingWidth, buildingLength);
             var (listOfRooms, listOfDoors) = generator.CalculateRooms(maxIterations,
@@ -50,7 +98,7 @@ public class RoomsCreator : MonoBehaviour
                 roomLengthMin,
                 doorWidth);
 
-            GameObject floorParent = new GameObject("Floor"  + floor);
+            GameObject floorParent = new GameObject("Floor" + floor);
             GameObject wallParent = new GameObject("Walls");
             GameObject doorParent = new GameObject("Doors");
             GameObject roomFloors = new GameObject("FloorTiles");
@@ -66,7 +114,7 @@ public class RoomsCreator : MonoBehaviour
             for (int i = 0; i < listOfRooms.Count; i++)
             {
                 CreateRoom(listOfRooms[i].BottomLeftAreaCorner, listOfRooms[i].TopRightAreaCorner, listOfDoors, roomFloors, floor, stairsPosition);
-                if(floor == totalFloors - 1)
+                if (floor == totalFloors - 1)
                 {
                     CreateRoof(listOfRooms[i].BottomLeftAreaCorner, listOfRooms[i].TopRightAreaCorner, roofParent);
                 }
@@ -82,15 +130,18 @@ public class RoomsCreator : MonoBehaviour
 
             floorParent.transform.position += new Vector3(0, floor * scale, 0);
             floorParent.transform.SetParent(building.transform);
+            floorParent.AddComponent<FloorController>();
+            floorsList.Add(floorParent);
         }
         building.transform.parent = transform;
         building.transform.parent.localScale = new Vector3(2f, 2f, 2f);
         building.transform.localPosition = new Vector3((float)-(buildingWidth - 1) / 2 * 3, building.transform.localPosition.y, (float)-(buildingLength - 1) / 2 * 3);
+
     }
     private void CreateRoof(Vector2 bottomLeftCorner, Vector2 topRightCorner, GameObject parent)
     {
         int direction = Random.Range(0, 2);
-        if(direction == 1)
+        if (direction == 1)
         {
             float roomWidth = topRightCorner.x - bottomLeftCorner.x;
             float roomHeight = topRightCorner.y - bottomLeftCorner.y;
@@ -112,13 +163,13 @@ public class RoomsCreator : MonoBehaviour
 
     }
 
-    private void CreateRoom(Vector2 bottomLeftCorner, Vector2 topRightCorner, List<Node> listOfCorridors, GameObject parent, int floor, Vector3 stairsLocation) 
+    private void CreateRoom(Vector2 bottomLeftCorner, Vector2 topRightCorner, List<Node> listOfCorridors, GameObject parent, int floor, Vector3 stairsLocation)
     {
-        for(float x = bottomLeftCorner.x; x < topRightCorner.x; x++)
+        for (float x = bottomLeftCorner.x; x < topRightCorner.x; x++)
         {
             for (float z = bottomLeftCorner.y; z < topRightCorner.y; z++)
             {
-                if( floor > 0&&Vector2.Distance(new Vector2(x, z), new Vector2(stairsLocation.x, stairsLocation.z)) < 0.5 )
+                if (floor > 0 && Vector2.Distance(new Vector2(x, z), new Vector2(stairsLocation.x, stairsLocation.z)) < 0.5)
                 {
                     GameObject.Instantiate(buildingSteps, new Vector3(x * scale, 0f * scale, z * scale), Quaternion.identity, parent.transform); //create floor tile
                 }
@@ -139,10 +190,10 @@ public class RoomsCreator : MonoBehaviour
         }
         for (float row = topLeftV.x; row < topRightCorner.x; row++)
         {
-            var wallPosition = new Vector3(row * scale, 0, topRightV.z * scale - (scale/2));
+            var wallPosition = new Vector3(row * scale, 0, topRightV.z * scale - (scale / 2));
             AddWallPositionToList(wallPosition, possibleWallHorizontalPosition, possibleDoorHorizontalPosition, listOfCorridors, floor);
         }
-        for (float col = bottomLeftV.z ; col < topLeftV.z; col++)
+        for (float col = bottomLeftV.z; col < topLeftV.z; col++)
         {
             var wallPosition = new Vector3(bottomLeftV.x * scale - (scale / 2), 0, col * scale);
             AddWallPositionToList(wallPosition, possibleWallVerticalPosition, possibleDoorVerticalPosition, listOfCorridors, floor);
@@ -158,11 +209,13 @@ public class RoomsCreator : MonoBehaviour
     {
         foreach (var wallPosition in possibleWallHorizontalPosition)
         {
-            CreateWall(wallParent, wallPosition, wallHorizontal);
+            float random = Random.Range(0f, 1f);
+            CreateWall(wallParent, wallPosition, random < windowProbability ? windowHorizontal : wallHorizontal);
         }
         foreach (var wallPosition in possibleWallVerticalPosition)
         {
-            CreateWall(wallParent, wallPosition, wallVertical);
+            float random = Random.Range(0f, 1f);
+            CreateWall(wallParent, wallPosition, random < windowProbability ? windowVertical : wallVertical);
         }
     }
 
@@ -193,15 +246,18 @@ public class RoomsCreator : MonoBehaviour
 
         for (int i = 0; i < listOfCorridors.Count; i++)
         {
-
-            if (Vector2.Distance(new Vector2(wallPosition.x, wallPosition.z),listOfCorridors[i].BottomLeftAreaCorner*3)< scale|| (Vector2.Distance(new Vector2(wallPosition.x, wallPosition.z), doorToOutsideLocation) < 0.5&& floor==0))
+            if (Vector2.Distance(new Vector2(wallPosition.x, wallPosition.z), listOfCorridors[i].BottomLeftAreaCorner * 3) < scale || ((Vector2.Distance(new Vector2(wallPosition.x, wallPosition.z), doorToOutsideLocation) < 0.2) && floor == 0))
             {
                 doorList.Add(wallPosition);
                 wallList.Remove(wallPosition);
                 return;
             }
         }
-        wallList.Add(wallPosition);
+        if (!wallList.Contains(wallPosition))
+        {
+            wallList.Add(wallPosition);
+
+        }
     }
 
     private Vector2 CalculateDoorToOutsideLocation()
@@ -221,14 +277,14 @@ public class RoomsCreator : MonoBehaviour
                 break;
             case 2: //East
                 location = Random.Range(0, buildingLength);
-                doorLocation= new Vector2( -scale/2, location * scale);
+                doorLocation = new Vector2(-scale / 2, location * scale);
                 break;
             case 3: //West
                 location = Random.Range(0, buildingLength);
-                doorLocation= new Vector2(buildingWidth * scale-scale/2, location * scale);
+                doorLocation = new Vector2(buildingWidth * scale - scale / 2, location * scale);
                 break;
             default:
-                doorLocation=new Vector2(0, 1);
+                doorLocation = new Vector2(0, 1);
                 break;
         }
         return doorLocation;

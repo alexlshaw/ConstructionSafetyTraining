@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,12 +58,12 @@ public class EnvironmentGenerator : MonoBehaviour
             Regions.Add(site);
         }
         //2. Vehicle access routes (drive paths from site entrance(s) to op sites
-            //Starting at site of most importance, define path to overall boundary (any side)
-            //Iterate over subsequent sites and either define their own path to boundary
-            //Or connect to an existing path
+        //Starting at site of most importance, define path to overall boundary (any side)
+        //Iterate over subsequent sites and either define their own path to boundary
+        //Or connect to an existing path
         //3. Entrance associated buildings
-            //Adjacent to intersection point of primary path to boundary
-            //Create region representing entrance/briefing/coffee/medical/etc building
+        //Adjacent to intersection point of primary path to boundary
+        //Create region representing entrance/briefing/coffee/medical/etc building
         //4. Large buildings
         //5. Crane sites (just where the base of the crane is, not the entire area covered by its operation)
         //6. Small buildings
@@ -80,8 +79,8 @@ public class EnvironmentGenerator : MonoBehaviour
     {
         //TODO: all of this
         //1. Go through all regions, place content
-            //A: Instantiate an object to parent the region's content (as a child of EnvironmentRoot)
-            //B: Instantiate region content
+        //A: Instantiate an object to parent the region's content (as a child of EnvironmentRoot)
+        //B: Instantiate region content
         //2. Go around boundary, place fencing/barriers
         //3. Go through all exterior regions, place scenery
     }
@@ -93,7 +92,7 @@ public class EnvironmentGenerator : MonoBehaviour
         float w = Random.Range(10.0f, 20.0f);
         float h = Random.Range(10.0f, 20.0f);
 
-        
+
         float x = Random.Range(2.0f * w, OverallSiteMaxWidth - (2.0f * w));
         float y = Random.Range(2.0f * h, OverallSiteMaxHeight - (2.0f * h));
         Vector2 topLeft = new Vector2(x, y);

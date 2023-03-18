@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 internal class RoomGenerator
 {
@@ -18,7 +16,7 @@ internal class RoomGenerator
     public List<RoomNode> GenerateRooms(List<Node> roomSpaces)
     {
         List<RoomNode> roomsList = new List<RoomNode>();
-        foreach(var space in roomSpaces)
+        foreach (var space in roomSpaces)
         {
 
             roomsList.Add((RoomNode)space);

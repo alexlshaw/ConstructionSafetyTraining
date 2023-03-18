@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 4216642118439986}
   m_Layer: 0
   m_Name: Glovekyle_hand_left
-  m_TagString: Untagged
+  m_TagString: Gloves
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

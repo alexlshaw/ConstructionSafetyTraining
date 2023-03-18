@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3834124436492421004}
   - component: {fileID: 3379415005764863196}
   - component: {fileID: 7948671427893549614}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RightBoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279985546792092111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3860023, y: 1.204, z: 0.006000042}
+  m_LocalPosition: {x: 0.082, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4821729097669085128}
@@ -42,7 +42,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279985546792092111}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.16, z: 0.34}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 8466153205519733648}
   - component: {fileID: 2065670094807912912}
   - component: {fileID: 6611722513724953379}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftBoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2403835403503835331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5400019, y: 1.2040212, z: 0.008000135}
+  m_LocalPosition: {x: -0.07199943, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4865920891319201786}
@@ -211,7 +211,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2403835403503835331}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.16, z: 0.34}
@@ -347,7 +347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2158571593185001506}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BootsInSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,7 @@ Transform:
   m_GameObject: {fileID: 2426106638177997455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 119706333801661377}
   - {fileID: 2906298396085925104}
@@ -437,6 +437,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right Work Boot
       objectReference: {fileID: 0}
+    - target: {fileID: 1992051592099977415, guid: a5da0f7aad143704199ba54f0b4b74da, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439095984040022607, guid: a5da0f7aad143704199ba54f0b4b74da, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7346861290963042725, guid: a5da0f7aad143704199ba54f0b4b74da, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8807805668277025873, guid: a5da0f7aad143704199ba54f0b4b74da, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5da0f7aad143704199ba54f0b4b74da, type: 3}
 --- !u!4 &4821729097669085128 stripped
@@ -451,6 +467,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2906298396085925104}
     m_Modifications:
+    - target: {fileID: 214975280145724816, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1169420335006608472, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -507,9 +527,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 4.049
       objectReference: {fileID: 0}
+    - target: {fileID: 1431913795554756476, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1977446605038532322, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
       propertyPath: m_Name
       value: Left Work Boot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1977446605038532322, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312470379231545671, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2781c7aa5dc11dd4680ac87ed79526ed, type: 3}
