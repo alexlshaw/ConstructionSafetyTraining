@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 
 public class Player : Character
 {
@@ -27,7 +24,7 @@ public class Player : Character
     protected override void Update()
     {
         zoneTrace();
-        
+
         moveFunc();
         base.Update();
     }
@@ -51,16 +48,19 @@ public class Player : Character
         Debug.Log("Controller input detected");
         inputVecMove = input.Get<Vector2>();
     }
-    void moveFunc(){
+    void moveFunc()
+    {
         moveDirection = Camera.main.transform.TransformDirection(new Vector3(inputVecMove.x, 0f, inputVecMove.y));
         moveDirection.y = 0f;
         moveDirection.Normalize();
     }
 
-    public void OnLook(InputValue input){
+    public void OnLook(InputValue input)
+    {
         inputVecCam = input.Get<Vector2>();
     }
-    void camFunc(){
+    void camFunc()
+    {
         if (moveDirection.magnitude != 0 && isGrounded)
         {
             bobOffset += 0.025f * multiplier;

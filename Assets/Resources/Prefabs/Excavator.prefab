@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cf8dff1eb95714fa773feb21503baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 9
-  ySize: 9
+  xSize: 14
+  ySize: 14
   generateBorder: 0
   randomlyRotate: 1
   material: {fileID: 2100000, guid: 2e4c78b972131ae4e9ce4ab96912bb46, type: 2}
@@ -183,7 +183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7702910740055034419
 Transform:
   m_ObjectHideFlags: 0

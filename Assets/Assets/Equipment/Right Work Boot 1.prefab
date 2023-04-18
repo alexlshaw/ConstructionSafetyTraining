@@ -57,7 +57,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dceb5138229cfd645a1fc579c1b842e9, type: 2}
     - target: {fileID: 919132149155446097, guid: 4367d73396da640409ebb34987c5e8d9, type: 3}
       propertyPath: m_Name
-      value: Right Work Boot
+      value: Right Work Boot 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4367d73396da640409ebb34987c5e8d9, type: 3}
+      propertyPath: m_TagString
+      value: Boots
       objectReference: {fileID: 0}
     - target: {fileID: 5794884613039703905, guid: 4367d73396da640409ebb34987c5e8d9, type: 3}
       propertyPath: m_Materials.Array.data[0]

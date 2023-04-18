@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TrainScript : MonoBehaviour
@@ -14,7 +13,7 @@ public class TrainScript : MonoBehaviour
     void Update()
     {
         locationAmount += movementStep;
-        transform.position = Vector3.Lerp(transform.position, end.position, Time.deltaTime/2);
+        transform.position = Vector3.Lerp(transform.position, end.position, Time.deltaTime / 2);
         if (locationAmount > 1) { StartCoroutine(wait()); }
     }
     IEnumerator wait()

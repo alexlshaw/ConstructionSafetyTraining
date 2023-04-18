@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CraneLoad : MonoBehaviour
@@ -18,12 +17,12 @@ public class CraneLoad : MonoBehaviour
     void Update()
     {
         lr.SetPosition(0, new Vector3(0, 0, 0));
-        lr.SetPosition(1, new Vector3(0, (100-transform.localPosition.y)/4, 0));
+        lr.SetPosition(1, new Vector3(0, (100 - transform.localPosition.y) / 4, 0));
         if (doRotate)
         {
-            transform.parent.transform.Rotate(Vector3.up, 0.01f*multiplier);
+            transform.parent.transform.Rotate(Vector3.up, 0.01f * multiplier);
         }
-        
+
         time += Time.deltaTime;
 
         Vector3 h1start = transform.TransformPoint(new Vector3(0.75f, 0, 0));
@@ -75,7 +74,7 @@ public class CraneLoad : MonoBehaviour
         float waitTime = 10f;
         Vector3 startPos = new Vector3(transform.localPosition.x, 90, transform.localPosition.z);
         Vector3 endPos = new Vector3(transform.localPosition.x, 2f, transform.localPosition.z);
-        
+
         while (elapsedTime < waitTime)
         {
             transform.localPosition = Vector3.Lerp(startPos, endPos, (elapsedTime / waitTime));
@@ -84,7 +83,7 @@ public class CraneLoad : MonoBehaviour
         }
         transform.localPosition = endPos;
         yield return new WaitForSeconds(10f);
-        
+
         elapsedTime = 0f;
         while (elapsedTime < waitTime)
         {
@@ -93,7 +92,7 @@ public class CraneLoad : MonoBehaviour
             yield return null;
         }
         transform.localPosition = startPos;
-        
+
         doRotate = true;
         doChecking = true;
         time = 0f;

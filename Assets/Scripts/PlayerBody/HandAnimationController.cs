@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class HandAnimationController : MonoBehaviour
 {
@@ -22,7 +19,7 @@ public class HandAnimationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.localRotation = Quaternion.Euler(0, 0, offsetAngle);
+        transform.localRotation = Quaternion.Euler(25, 0, offsetAngle);
         handAnimator = GetComponent<Animator>();
     }
 
@@ -43,7 +40,7 @@ public class HandAnimationController : MonoBehaviour
 
     void UpdateHandAnimation()
     {
-        if(inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
+        if (inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
         {
             handAnimator.SetFloat("Trigger", triggerValue);
 

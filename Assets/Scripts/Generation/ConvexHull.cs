@@ -3,13 +3,12 @@
  * @author Benjamin Williams <bwilliams@lincoln.ac.uk>
 */
 
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public static partial class ConvexHull
-{   
+{
     /// <summary>
     /// Computes the convex hull of a list of points.
     /// </summary>
@@ -34,7 +33,7 @@ public static partial class ConvexHull
             //Set endpoint back to the first point in the list of points
             endpoint = points[0];
 
-            for(var j = 1; j < points.Count; j++)
+            for (var j = 1; j < points.Count; j++)
             {
                 //Run through points -- if the turn from this point to the other is greater, set endpoint to this
                 if ((endpoint == currentPoint) || (ccw(currentPoint, endpoint, points[j]) < 0))

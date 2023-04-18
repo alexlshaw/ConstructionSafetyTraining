@@ -8,6 +8,16 @@ TagManager:
   - Train
   - MovingVehicle
   - StationaryVehicle
+  - Wall
+  - Vest
+  - Helmet
+  - Glasses
+  - Mask
+  - Boots
+  - Gloves
+  - Harness
+  - ToolItem
+  - Roof
   layers:
   - Default
   - TransparentFX
@@ -19,15 +29,15 @@ TagManager:
   - Restricted
   - NoGo
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Agent
+  - Equipment
+  - MiniMap
+  - Wall
+  - GrabInteractables
+  - Foundation
+  - ConcreteMixer
+  - AutoVehicle
+  - TriggerDetection
   - 
   - 
   - 
